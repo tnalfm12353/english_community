@@ -5,10 +5,10 @@ import {Link} from 'react-router-dom';
 import {device}from '../lib/style/Device';
 import Logo from '../../webapp/img/bufs.jpg';
 
-import Navi from '../components/Navi.jsx';
-import AccountButtons from '../components/AccountButtons.jsx';
+import Navi from '../headerComponents/Navi.jsx';
+import AuthenticationButtons from '../headerComponents/AuthenticationButtons.jsx';
 import { useSelector } from 'react-redux';
-import AccountHeaderProfile from '../components/AccountHeaderProfile.jsx';
+import AccountHeaderButtons from '../headerComponents/AccountHeaderButtons.jsx';
 import MobileNavi from './MobileNavi.jsx';
 const Header = () =>{
 
@@ -25,9 +25,9 @@ const Header = () =>{
             </NaviDiv>
             {
                 authenticated?
-                    <AccountHeaderProfile/>
+                    <AccountHeaderButtons/>
                     :
-                    <AccountButtons/>
+                    <AuthenticationButtons/>
             }
         </HeaderContainer>
     )

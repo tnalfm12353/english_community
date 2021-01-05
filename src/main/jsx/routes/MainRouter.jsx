@@ -27,6 +27,7 @@ const MainRouter = () =>{
                     <Route path="/schedule" component={Schedule}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/signUp" component={SignUp}/>
+                    
                     <Route component ={NotFound}/>
                 </Switch>
             </WebPage>
@@ -35,6 +36,7 @@ const MainRouter = () =>{
 }
 
 const WebPage = styled.div`
+    padding:0 2em;
     padding-top:55px;
 `
 export default MainRouter;

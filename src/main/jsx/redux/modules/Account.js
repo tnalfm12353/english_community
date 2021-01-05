@@ -19,11 +19,11 @@ const initialState = Map({
         password: ""
     }),
     account:Map({
-        thumbnail:"",
-        username:"",
-        nickname:""
+        thumbnail:null,
+        username:null,
+        nickname:null
     }),
-    errorMessage:"",
+    errorMessage:null,
     authenticated:false
 });
 

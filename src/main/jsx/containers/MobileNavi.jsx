@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import MobileNaviButton from '../components/MobileNaviButton.jsx';
-import MobileNaviPanel from '../components/MobileNaviPanel.jsx';
+import MobileNaviButton from '../headerComponents/MobileNaviButton.jsx';
+import MobileNaviPanel from '../headerComponents/MobileNaviPanel.jsx';
 
 const MobileNavi = () =>{
     const [trigger, setTrigger] = useState(false);
     const mobileNaviRef = useRef(null);
     
     useEffect(()=>{
-        console.log(trigger);
         if(trigger){
            window.addEventListener('click',onClickOutsideHandler);
         }
