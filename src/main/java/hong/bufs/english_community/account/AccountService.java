@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import hong.bufs.english_community.account.form.SignUpForm;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,8 @@ public class AccountService implements UserDetailsService {
         Account account = modelMapper.map(SignUpForm, Account.class);
         return accountRepository.save(account);
     }
-
+    
+    @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findByUsername(username);
@@ -48,4 +50,13 @@ public class AccountService implements UserDetailsService {
         return account.getAccount();
 	}
     
+    @Transactional(readOnly = true)
+    public Account getAccountProfile(String username) throws UsernameNotFoundException{
+        Account account = accountRepository.findByUsername(username);
+        if(account == null){
+            throw new UsernameNotFoundException(username+"을 찾을 수 없음");
+        }
+        return account;
+    }
+
 }

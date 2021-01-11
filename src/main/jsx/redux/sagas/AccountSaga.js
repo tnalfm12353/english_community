@@ -38,6 +38,7 @@ export function* loginFlow(){
 
 function* setAccountInfo(response){
     const accountInfo = {
+        id: response.data.id,
         username : response.data.username,
         nickname : response.data.nickname
     }

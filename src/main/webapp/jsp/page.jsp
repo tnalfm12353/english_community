@@ -10,11 +10,16 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, height= device-height, initial-scale=1.0">
     <style>
-            html,body {margin: 0; padding: 0; border: 0; width:100%;}
+            html,body {margin: 0; padding: 0; border: 0; width:100%; height: 100%;}
             /* width */
             ::-webkit-scrollbar {
             width: 4px;
         
+            }
+
+            #root{
+                width: 100%;
+                height: 100%;
             }
 
             /* Track */

@@ -19,6 +19,7 @@ const initialState = Map({
         password: ""
     }),
     account:Map({
+        id:null,
         thumbnail:null,
         username:null,
         nickname:null

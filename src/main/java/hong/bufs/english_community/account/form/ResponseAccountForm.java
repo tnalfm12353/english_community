@@ -4,12 +4,10 @@ import lombok.Data;
 
 @Data
 public class ResponseAccountForm {
-      
+    
     private Long id;
 
     private String username;
-    
-    private String password;
 
     private String nickname;
 
@@ -27,4 +25,5 @@ public class ResponseAccountForm {
     
     private boolean isEnglishMajor; //추후 교수님이나 조교 등 확인해준다면 인증된 계정으로 만들 예정.
 
+    private boolean isOwner; //받은 데이터가 현재 계정의 주인인지 판단할때.
 }

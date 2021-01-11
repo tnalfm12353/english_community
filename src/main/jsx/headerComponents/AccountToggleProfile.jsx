@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Link} from "react-router-dom";
 import styled from 'styled-components';
 import ProfileImage from '../components/ProfileImage.jsx';
@@ -7,21 +7,21 @@ const AccountToggleProfile = () =>{
     const account = useSelector(state => state.Account.get('account'));
 
     function handleLogout(){
-        console.log("logout");
+        console.log("logout"+ account.id);
     }
 
     return(
         <ToggleContainer>
-            <AccountInfo>
+            <>
                 <AccountImage>
                     <ProfileImage/>
                 </AccountImage>
                 <TextDiv isNickname = {true}><p>{account.nickname}</p></TextDiv>
                 <TextDiv><p>{account.username}</p></TextDiv>
-            </AccountInfo>
+            </>
             <Line/>
-            <StyleButton><Link to="/">프로필</Link></StyleButton>
-            <StyleButton><Link to="/">계정 관리</Link></StyleButton>
+            <StyleButton><StyleLink to={"/Profile/"+account.username}>프로필</StyleLink></StyleButton>
+            <StyleButton><StyleLink to={`/Profile/${account.username}/settings`}>계정 관리</StyleLink></StyleButton>
             <StyleButton onClick={()=>handleLogout()}>로그아웃</StyleButton>
         </ToggleContainer>
     )
@@ -37,9 +37,8 @@ const ToggleContainer = styled.div`
     padding: 1.5rem;
 `
 
-const AccountInfo = styled.div`
-    
-
+const StyleLink = styled(Link)`
+    padding: .5em 5em;
 `
 
 const AccountImage = styled.div`
@@ -75,4 +74,9 @@ const StyleButton = styled.button`
     font-size:1rem;
     font-weight:bold;
     color: rgba(0,0,0,.5);
+
+    &:hover{
+        color: #ffca08;
+        border-color:#ffca08;
+    }
 `

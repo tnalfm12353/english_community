@@ -43,3 +43,14 @@ export function FetchAccount(){
               .then(response=>({response}))
               .catch(function(error){axiosError(error)});
 }
+
+export function getAccountProfile(username){
+  return axios.get("/api/account/get-account-profile/"+username,{
+                headers:{
+                  'Accept': 'application/json',
+                              'Content-Type': 'application/json;charset=UTF-8',
+                              'Authorization': "Bearer "+ localStorage.getItem("jwt")
+                }
+              }).then(response=>response.data)
+              .catch(function(error){axiosError(error)});
+}

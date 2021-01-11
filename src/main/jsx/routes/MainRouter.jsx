@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import styled from 'styled-components';
 import {Route, Switch, BrowserRouter as Router} from 'react-router-dom';
-import {Home, About, NotFound, Community, Schedule, Login, SignUp} from './pages';
+import {Home, About, NotFound, Community, Schedule, Login, SignUp ,Profile} from './pages';
 import Header from '../containers/Header.jsx';
 import {getAccountFetch} from '../redux/modules/Account';
 import { useDispatch } from 'react-redux';
@@ -27,7 +27,7 @@ const MainRouter = () =>{
                     <Route path="/schedule" component={Schedule}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/signUp" component={SignUp}/>
-                    
+                    <Route path="/profile/:username" component={Profile}/>
                     <Route component ={NotFound}/>
                 </Switch>
             </WebPage>

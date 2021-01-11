@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,9 +57,25 @@ public class AccountController {
         Account account = accountService.getUserAccount(context);
     
         ResponseAccountForm responseForm = new ResponseAccountForm();
+        responseForm.setId(account.getId());
         responseForm.setUsername(account.getUsername());
         responseForm.setNickname(account.getNickname());
         
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
+    
+    @GetMapping("/api/account/get-account-profile/{username}")
+    public ResponseEntity<?> getAccountProfile (@CurrentAccount AccountContext context,@PathVariable String username){
+        Account accountProfile = accountService.getAccountProfile(username);
+
+        ResponseAccountForm responseForm = modelMapper.map(accountProfile, ResponseAccountForm.class);
+        
+        if(context.getUsername().equals(accountProfile.getUsername())){
+            responseForm.setOwner(true);
+        }
+        
+        return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
+    }
+
+
 }
