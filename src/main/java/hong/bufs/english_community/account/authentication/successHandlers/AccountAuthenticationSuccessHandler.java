@@ -38,11 +38,13 @@ public class AccountAuthenticationSuccessHandler implements AuthenticationSucces
         String jwtToken = jwtTokenUtil.generateToken(account);
         System.out.println(jwtToken);
 
-        processResponse(response, writeDto(jwtToken,account.getAccount().getUsername(),account.getAccount().getNickname()));
+        processResponse(response, writeDto(jwtToken,account.getAccount().getId(),
+                                                    account.getAccount().getUsername(),
+                                                    account.getAccount().getNickname()));
     }
 
-    private JwtResponseForm writeDto(String jwtToken, String username, String nickname){
-        return new JwtResponseForm(jwtToken,username,nickname);
+    private JwtResponseForm writeDto(String jwtToken, Long id, String username, String nickname){
+        return new JwtResponseForm(jwtToken,id,username,nickname);
     }
 
     private void processResponse(HttpServletResponse response, JwtResponseForm jwtResponseForm) throws IOException{

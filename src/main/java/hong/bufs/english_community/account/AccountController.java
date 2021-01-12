@@ -52,7 +52,7 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/account/select-current-account")
+    @GetMapping("/auth/account/select-current-account")
     public ResponseEntity<? extends BasicResponse> selectCurrentAccount(@CurrentAccount AccountContext context){
         Account account = accountService.getUserAccount(context);
     
@@ -64,10 +64,9 @@ public class AccountController {
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
     
-    @GetMapping("/api/account/get-account-profile/{username}")
-    public ResponseEntity<?> getAccountProfile (@CurrentAccount AccountContext context,@PathVariable String username){
-        Account accountProfile = accountService.getAccountProfile(username);
-
+    @GetMapping("/auth/account/get-account-profile/{id}")
+    public ResponseEntity<?> getAccountProfile (@CurrentAccount AccountContext context,@PathVariable Long id){
+        Account accountProfile = accountService.getAccountProfile(id);
         ResponseAccountForm responseForm = modelMapper.map(accountProfile, ResponseAccountForm.class);
         
         if(context.getUsername().equals(accountProfile.getUsername())){
@@ -76,6 +75,5 @@ public class AccountController {
         
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
-
 
 }

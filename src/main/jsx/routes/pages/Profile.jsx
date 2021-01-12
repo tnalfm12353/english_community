@@ -9,17 +9,11 @@ function Profile (props){
     return(
         <ProfileContainer>
             <UserInfoDiv>
-                <AccountProfile username={props.match.params.username}/>
+                <AccountProfile id={props.match.params.id}/>
             </UserInfoDiv>
             <ContentContainer >
                 <Route exact path={props.match.path} component={Home}/>
                 <Route exact path={props.match.path+"/settings"} component={Community}/>
-                {/* <ProfileStudyDiv>
-                    ProfileStudyDiv
-                </ProfileStudyDiv>
-                <ProfilePostDiv>
-                    ProfilePostDiv
-                </ProfilePostDiv> */}
             </ContentContainer>
         </ProfileContainer>
     );
@@ -32,13 +26,14 @@ const ProfileContainer = styled.div`
     height:100%;
 
     display: flex;
-    flex-flow:wrap;
+
 `
 const UserInfoDiv = styled.div`
     width:30%;
     min-width: 300px;
-    height: 100%;
-    
+    min-height: 500px;
+    margin: auto;
+    margin-top:5em;
 `
 const ContentContainer = styled.div`
     flex-direction: column;

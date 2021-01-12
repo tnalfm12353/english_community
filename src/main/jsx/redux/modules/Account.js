@@ -38,6 +38,7 @@ export default handleActions({
         return state.setIn(['loginForm',name],value);
     },
     [LOGIN_SUCCESS]:(state,action) =>{
+        console.log(action.payload);
         return state.set('account',action.payload).set('authenticated',true);
     },
     [LOGIN_FAILURE]:(state,action) =>{

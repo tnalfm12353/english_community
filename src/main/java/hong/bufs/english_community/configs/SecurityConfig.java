@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception{
-        FilterSkipMatcher skipMatcher = new FilterSkipMatcher(Arrays.asList("/Schedule"), "/api/**");
+        FilterSkipMatcher skipMatcher = new FilterSkipMatcher(Arrays.asList("/","/About"), "/auth/**");
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(skipMatcher, tokenExtractor, jwtAuthenticationFailureHandler);
         jwtAuthenticationFilter.setAuthenticationManager(super.authenticationManagerBean());
 
@@ -61,11 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .authorizeRequests()
-            .mvcMatchers( "/**/main.bundle.js" , "/favicon.ico" ,
-                            "/"  , "/About" , "/Community", "/Login", "/SignUp" ).permitAll()
-            .mvcMatchers(HttpMethod.POST, "/sign-up/*","/login").permitAll()
-            .anyRequest().hasRole("USER");
+            .authorizeRequests().anyRequest().permitAll();
             
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             

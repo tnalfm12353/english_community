@@ -1,8 +1,18 @@
 import axios from 'axios';
 
-export let headers={
-    'Accept': 'application/json',
-    'Content-Type': 'application/json;charset=UTF-8',
+export const headers={
+  'Accept': 'application/json',
+  'Content-Type': 'application/json;charset=UTF-8',
+}
+
+export function tokenHeader() {
+    const headers={
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': "Bearer "+ localStorage.getItem("jwt")
+    }
+
+    return headers
 }
 
 export const axiosError=(error)=>{

@@ -11,6 +11,7 @@ public class JwtResponseForm {
     private String jwt;
 
 //  private thumbnail;
+    private Long id;
 
     private String username; 
 

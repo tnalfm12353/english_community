@@ -3,11 +3,13 @@ import {Link} from "react-router-dom";
 import styled from 'styled-components';
 import ProfileImage from '../components/ProfileImage.jsx';
 import { useSelector } from 'react-redux';
+
 const AccountToggleProfile = () =>{
     const account = useSelector(state => state.Account.get('account'));
 
     function handleLogout(){
-        console.log("logout"+ account.id);
+        localStorage.removeItem("jwt");
+
     }
 
     return(
@@ -20,8 +22,8 @@ const AccountToggleProfile = () =>{
                 <TextDiv><p>{account.username}</p></TextDiv>
             </>
             <Line/>
-            <StyleButton><StyleLink to={"/Profile/"+account.username}>프로필</StyleLink></StyleButton>
-            <StyleButton><StyleLink to={`/Profile/${account.username}/settings`}>계정 관리</StyleLink></StyleButton>
+            <StyleButton><StyleLink to={"/Profile/"+account.id}>프로필</StyleLink></StyleButton>
+            <StyleButton><StyleLink to={`/Profile/${account.id}/settings`}>계정 관리</StyleLink></StyleButton>
             <StyleButton onClick={()=>handleLogout()}>로그아웃</StyleButton>
         </ToggleContainer>
     )

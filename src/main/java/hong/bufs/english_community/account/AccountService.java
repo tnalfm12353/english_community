@@ -51,11 +51,8 @@ public class AccountService implements UserDetailsService {
 	}
     
     @Transactional(readOnly = true)
-    public Account getAccountProfile(String username) throws UsernameNotFoundException{
-        Account account = accountRepository.findByUsername(username);
-        if(account == null){
-            throw new UsernameNotFoundException(username+"을 찾을 수 없음");
-        }
+    public Account getAccountProfile(Long id) throws UsernameNotFoundException{
+        Account account = accountRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
         return account;
     }
 

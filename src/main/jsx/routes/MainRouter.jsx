@@ -10,7 +10,6 @@ const MainRouter = () =>{
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        // jwt토큰 사용 방법을 더 공부한후 자동로그인을 만들자.
         if(localStorage.getItem('jwt') != null){
              dispatch(getAccountFetch());
         }
@@ -27,7 +26,7 @@ const MainRouter = () =>{
                     <Route path="/schedule" component={Schedule}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/signUp" component={SignUp}/>
-                    <Route path="/profile/:username" component={Profile}/>
+                    <Route path="/profile/:id" component={Profile}/>
                     <Route component ={NotFound}/>
                 </Switch>
             </WebPage>
@@ -38,5 +37,7 @@ const MainRouter = () =>{
 const WebPage = styled.div`
     padding:0 2em;
     padding-top:55px;
+    width:100%;
+    height:100%;
 `
 export default MainRouter;
