@@ -42,6 +42,7 @@ public class Account {
     
     private String bio; // 자기소개
 
+    private String thumbnail;
     //Todo 프로필 이미지와 백그라운드 이미지 추가하기!
     
     private boolean isEnglishMajor; //추후 교수님이나 조교 등 확인해준다면 인증된 계정으로 만들 예정.

@@ -10,10 +10,9 @@ const getLoginForm = (state) => {
 
 export function* fetchAccount(){
     const {response}= yield call(FetchAccount);
-    console.log(response.data);
 
     if(response){
-        yield call(setAccountInfo,response.data);
+        yield call(setAccountInfo,response.data.data);
     }else{
         localStorage.clear();
     }
@@ -24,7 +23,7 @@ export function* loginFlow(){
     const data = yield select(getLoginForm);
     const {response,error} = yield call(LogInApi,data);
     if(response){
-        yield call(setAccountInfo,response);
+        yield call(setAccountInfo,response.data.account);
         //TODO refresh token을 만들어서 쿠키에 담아야함.
         localStorage.setItem("jwt",response.data.jwt); 
     }else{
@@ -33,10 +32,6 @@ export function* loginFlow(){
 }
 
 function* setAccountInfo(response){
-    const accountInfo = {
-        id: response.data.id,
-        username : response.data.username,
-        nickname : response.data.nickname
-    }
-    yield put({type:LOGIN_SUCCESS, payload: accountInfo});
+    console.log(response);
+    yield put({type:LOGIN_SUCCESS, payload: response});
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import InputForm from '../components/AuthenticInputForm.jsx';
+import InputForm from '../components/SignUpInputForm.jsx';
 const SignUpForm = ({validPW,validCPW,isIdExist,isNickExist,
                     nickErrorMSG,idErrorMSG,
                     onChange,onKeyPress,signUp,isSimpleSignUp}) =>{

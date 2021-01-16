@@ -44,6 +44,7 @@ const HeaderContainer = styled.div`
     display:flex;
     align-items:center;
     place-content:space-between;
+    z-index:100;
 `
 
 const NaviDiv = styled.div`

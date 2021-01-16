@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,7 @@ import hong.bufs.english_community.account.AccountContext;
 import hong.bufs.english_community.account.authentication.jwtUtils.JwtTokenUtil;
 import hong.bufs.english_community.account.authentication.token.AuthenticatedUserToken;
 import hong.bufs.english_community.account.form.JwtResponseForm;
-
+import hong.bufs.english_community.account.form.ResponseAccountForm;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -27,7 +28,7 @@ public class AccountAuthenticationSuccessHandler implements AuthenticationSucces
 
     private final JwtTokenUtil jwtTokenUtil;
     private final ObjectMapper objectMapper;
-
+    private final ModelMapper modelmapper;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
@@ -36,15 +37,13 @@ public class AccountAuthenticationSuccessHandler implements AuthenticationSucces
         AccountContext account = (AccountContext) token.getPrincipal();
         
         String jwtToken = jwtTokenUtil.generateToken(account);
-        System.out.println(jwtToken);
 
-        processResponse(response, writeDto(jwtToken,account.getAccount().getId(),
-                                                    account.getAccount().getUsername(),
-                                                    account.getAccount().getNickname()));
+        ResponseAccountForm responseAccountForm = modelmapper.map(account.getAccount(),ResponseAccountForm.class);
+        processResponse(response, writeDto(jwtToken,responseAccountForm));
     }
 
-    private JwtResponseForm writeDto(String jwtToken, Long id, String username, String nickname){
-        return new JwtResponseForm(jwtToken,id,username,nickname);
+    private JwtResponseForm writeDto(String jwtToken, ResponseAccountForm responseAccountForm){
+        return new JwtResponseForm(jwtToken,responseAccountForm);
     }
 
     private void processResponse(HttpServletResponse response, JwtResponseForm jwtResponseForm) throws IOException{

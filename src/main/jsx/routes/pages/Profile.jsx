@@ -1,8 +1,8 @@
 import React from 'react';
 import {Route} from 'react-router-dom';
 import styled from 'styled-components';
-import AccountProfile from '../../account/AccountProfile.jsx';
-import Community from './Community.jsx';
+import AccountProfile from '../../profile/AccountProfile.jsx';
+import AccountSettingContainer from '../../profile/AccountSettingContainer.jsx';
 import Home from './Home.jsx';
 
 function Profile (props){
@@ -11,9 +11,9 @@ function Profile (props){
             <UserInfoDiv>
                 <AccountProfile id={props.match.params.id}/>
             </UserInfoDiv>
-            <ContentContainer >
+            <ContentContainer>
                 <Route exact path={props.match.path} component={Home}/>
-                <Route exact path={props.match.path+"/settings"} component={Community}/>
+                <Route path={props.match.path+"/settings"} component={AccountSettingContainer}/>
             </ContentContainer>
         </ProfileContainer>
     );
@@ -23,10 +23,13 @@ export default Profile;
 
 const ProfileContainer = styled.div`
     width:100%;
-    height:100%;
+    height:auto;
 
     display: flex;
 
+    @media only screen and (max-width: 800px){
+        flex-direction: column;
+    }
 `
 const UserInfoDiv = styled.div`
     width:30%;
@@ -34,22 +37,16 @@ const UserInfoDiv = styled.div`
     min-height: 500px;
     margin: auto;
     margin-top:5em;
+    margin-bottom:5em;
+
+    @media only screen and (max-width: 800px){
+        width:100%;
+    }
 `
 const ContentContainer = styled.div`
     flex-direction: column;
 
     width:70%;
     height:100%;
-`
-
-const ProfilePostDiv = styled.div`
-    width:100%;
-    height:50%;
-    border:1px solid red;
-`
-
-const ProfileStudyDiv = styled.div`
-    width:100%;
-    height:50%;
-    border:1px solid red;   
+    margin-bottom:5em;
 `

@@ -86,6 +86,7 @@ const AccountHeaderButtons = () =>{
                 <HeaderDropdownTemp
                     hiddenAlarm = {hiddenAlarm}
                     hiddenProfile = {hiddenProfile}
+                    onClose = {handleClose}
                 />
             }
         </AccountHeaderProfileDiv>

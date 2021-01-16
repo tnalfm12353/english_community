@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SignUpForm from './SignUpForm.jsx';
 import axios from 'axios';
 import {SignUpApi} from '../lib/api/account/AccountApi';
+import {validationForm} from '../lib/api/account/Validation';
 import {headers, axiosError} from '../lib/api/AxiosConfig';
 class SignUp extends React.Component{
     
@@ -81,10 +82,8 @@ class SignUp extends React.Component{
 
     /* -------------------- Validation ------------------------------*/
     validation(e) {
-        const IDcheck = /^(?=.*[a-zA-Z]).{4,12}$/;
-        const PWCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{6,16}$/;
-        const nickCheck = /^[가-힣|a-z|A-Z|0-9].{1,10}$/;
-        const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/;
+
+        const {IDcheck, PWCheck, nickCheck, regExp } = validationForm;
 
         const blur = document.getElementById('id-input');
 

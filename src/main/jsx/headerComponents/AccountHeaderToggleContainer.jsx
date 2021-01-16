@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DropdwonProfileInfo from './AccountToggleProfile.jsx';
+import AccountToggleProfile from './AccountToggleProfile.jsx';
 
-const AccountHeaderToggleContainer = ({hiddenAlarm, hiddenProfile}) =>{
+const AccountHeaderToggleContainer = ({hiddenAlarm, hiddenProfile, onClose}) =>{
 
     const [pointRightpx,setPointRightpx] = useState(null);
 
@@ -21,7 +21,9 @@ const AccountHeaderToggleContainer = ({hiddenAlarm, hiddenProfile}) =>{
             );
         }else if(!hiddenProfile){
             return(
-                <DropdwonProfileInfo/>
+                <AccountToggleProfile 
+                    onClose = {onClose}
+                    />
             );
         }
     }

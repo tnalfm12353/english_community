@@ -56,10 +56,7 @@ public class AccountController {
     public ResponseEntity<? extends BasicResponse> selectCurrentAccount(@CurrentAccount AccountContext context){
         Account account = accountService.getUserAccount(context);
     
-        ResponseAccountForm responseForm = new ResponseAccountForm();
-        responseForm.setId(account.getId());
-        responseForm.setUsername(account.getUsername());
-        responseForm.setNickname(account.getNickname());
+        ResponseAccountForm responseForm = convertAccountToResponseAccountForm(account);
         
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
@@ -67,7 +64,7 @@ public class AccountController {
     @GetMapping("/auth/account/get-account-profile/{id}")
     public ResponseEntity<?> getAccountProfile (@CurrentAccount AccountContext context,@PathVariable Long id){
         Account accountProfile = accountService.getAccountProfile(id);
-        ResponseAccountForm responseForm = modelMapper.map(accountProfile, ResponseAccountForm.class);
+        ResponseAccountForm responseForm = convertAccountToResponseAccountForm(accountProfile);
         
         if(context.getUsername().equals(accountProfile.getUsername())){
             responseForm.setOwner(true);
@@ -76,4 +73,7 @@ public class AccountController {
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
 
+    private ResponseAccountForm convertAccountToResponseAccountForm(Account account){
+        return modelMapper.map(account,ResponseAccountForm.class);
+    }
 }

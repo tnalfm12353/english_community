@@ -25,7 +25,7 @@ class App extends React.Component {
 
 const FullLayout = styled.div `
     width:100%;
-    height: 100%;
+    height: auto;
     background-color: #fafafa;
 `
 ReactDOM.render(

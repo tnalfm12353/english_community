@@ -9,12 +9,10 @@ function ProfileImage ({thumbnail, nickname}){
         if(thumbnail != null){
             console.log("thumbnail");
         }else if(nickname != null){
-            console.log("nickname");
             return <Jdenticon value = {nickname}/>
         }else if(account.thumbnail != null){
             console.log("Accountthumbnail");
         }else{
-            console.log("Accountnickname");
             return <Jdenticon value = {account.nickname}/>
         }
     }
