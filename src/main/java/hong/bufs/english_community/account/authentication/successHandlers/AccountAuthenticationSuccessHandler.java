@@ -47,7 +47,8 @@ public class AccountAuthenticationSuccessHandler implements AuthenticationSucces
     }
 
     private void processResponse(HttpServletResponse response, JwtResponseForm jwtResponseForm) throws IOException{
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE); 
+        // APPLICATION_JSON_UTF8_VALUE대신 APPLICATION_JSON_VALUE 쓰라고 하는데 한글 깨짐현상 나타남.
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().write(objectMapper.writeValueAsString(jwtResponseForm));
     }

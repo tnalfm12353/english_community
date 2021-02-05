@@ -79,7 +79,7 @@ const Label = styled.label`
 const CheckedMark = styled.div`
     position:absolute;
     top:2rem;
-    left:18rem;
+    right:1.2em;
     font-size: 1.5rem;
     line-height: 1rem;
     margin-left: 1rem;

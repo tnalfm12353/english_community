@@ -49,4 +49,8 @@ const ContentContainer = styled.div`
     width:70%;
     height:100%;
     margin-bottom:5em;
+
+    @media only screen and (max-width: 800px){
+        width:100%;
+    }
 `

@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react';
 import styled from 'styled-components';
+import {device} from '../lib/style/Device';
 import {Route, Switch, BrowserRouter as Router} from 'react-router-dom';
 import {Home, About, NotFound, Community, Schedule, Login, SignUp ,Profile} from './pages';
 import Header from '../containers/Header.jsx';
@@ -39,5 +40,10 @@ const WebPage = styled.div`
     padding-top:55px;
     width:100%;
     height:100%;
+
+    @media only screen and (max-width:800px){
+        padding:0 1em;
+        padding-top:55px;
+    }
 `
 export default MainRouter;

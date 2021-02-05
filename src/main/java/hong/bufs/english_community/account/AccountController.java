@@ -1,8 +1,16 @@
 package hong.bufs.english_community.account;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,7 +35,8 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountRepository accountRepository;
     private final ModelMapper modelMapper;
-    
+    private final ServletContext servletContext;
+
     @PostMapping("/sign-up/valid-username")
     @ResponseBody
     public String validID(@Valid @RequestBody ExistValidForm existValidForm) throws Exception {
@@ -57,7 +66,6 @@ public class AccountController {
         Account account = accountService.getUserAccount(context);
     
         ResponseAccountForm responseForm = convertAccountToResponseAccountForm(account);
-        
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
     
@@ -65,15 +73,30 @@ public class AccountController {
     public ResponseEntity<?> getAccountProfile (@CurrentAccount AccountContext context,@PathVariable Long id){
         Account accountProfile = accountService.getAccountProfile(id);
         ResponseAccountForm responseForm = convertAccountToResponseAccountForm(accountProfile);
-        
-        if(context.getUsername().equals(accountProfile.getUsername())){
-            responseForm.setOwner(true);
-        }
-        
+
         return ResponseEntity.ok().body(new CommonResponse<ResponseAccountForm>(responseForm));
     }
 
     private ResponseAccountForm convertAccountToResponseAccountForm(Account account){
         return modelMapper.map(account,ResponseAccountForm.class);
+    }
+
+    // @GetMapping("/profile/thumbnail/{imageName}")
+    // public ResponseEntity<byte[]> getUserThumbnail (@PathVariable String imageName)throws IOException{
+        
+    //     HttpHeaders headers = new HttpHeaders();
+    //     InputStream inputStream = servletContext.getResourceAsStream("/uploadedThumbnail/" +imageName);
+    //     byte[] imageByteArray = IOUtils.toByteArray(inputStream);
+    //     headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+
+    //     ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(imageByteArray,headers,HttpStatus.OK);
+
+    //     return responseEntity;
+    // }
+
+    @GetMapping("/profile/thumbnail/{imageName}")
+    public @ResponseBody byte[] getUserThumbnail (@PathVariable String imageName)throws IOException{
+        InputStream inputStream = servletContext.getResourceAsStream("/uploadedThumbnail/" +imageName);
+        return IOUtils.toByteArray(inputStream);
     }
 }

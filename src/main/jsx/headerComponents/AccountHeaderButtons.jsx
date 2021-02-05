@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 import HeaderDropdownTemp from './AccountHeaderToggleContainer.jsx';
-import ProfileImage from '../components/ProfileImage.jsx';
+import MyThumbnail from '../components/MyThumbnail.jsx';
 
 
 const AccountHeaderButtons = () =>{
@@ -47,19 +47,25 @@ const AccountHeaderButtons = () =>{
     }
     
     useEffect(()=>{
-
         if(!hiddenAlarm || !hiddenProfile){
             setHiddenTemp(false);
-        }else{
-            setHiddenTemp(true);
         }
 
-    })
+        return (()=>{
+            setHiddenTemp(true);
+        })
+
+    },[hiddenAlarm,hiddenProfile])
 
     useEffect(()=>{
-        if(!hiddenTemp){
+        if(!hiddenTemp){   
            window.addEventListener('click',onClickOutsideHandler);
         }
+
+        return (() =>{
+            window.removeEventListener('click',onClickOutsideHandler);
+        });
+
     },[hiddenTemp])
     
     function onClickOutsideHandler(e){
@@ -79,7 +85,7 @@ const AccountHeaderButtons = () =>{
                 }
             </DropdownButton>
             <DropdownButton onClick={() => handleSetProfile()}>
-                 <ProfileImage/>
+                 <MyThumbnail/>
             </DropdownButton>
             {
                 hiddenTemp? null:

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import AccountToggleProfile from './AccountToggleProfile.jsx';
+import DevelopingModelMsg from '../components/DevelopingModeMsg.jsx';
 
 const AccountHeaderToggleContainer = ({hiddenAlarm, hiddenProfile, onClose}) =>{
 
@@ -17,13 +18,13 @@ const AccountHeaderToggleContainer = ({hiddenAlarm, hiddenProfile, onClose}) =>{
     function getUsedComponent (){
         if(!hiddenAlarm){
             return(
-                <div>hihi</div>
+                <DevelopingModelMsg/>
             );
         }else if(!hiddenProfile){
             return(
                 <AccountToggleProfile 
                     onClose = {onClose}
-                    />
+                />
             );
         }
     }

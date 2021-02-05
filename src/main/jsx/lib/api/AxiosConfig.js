@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export const headers={
   'Accept': 'application/json',
   'Content-Type': 'application/json;charset=UTF-8',
@@ -12,7 +10,16 @@ export function tokenHeader() {
       'Authorization': "Bearer "+ localStorage.getItem("jwt")
     }
 
-    return headers
+    return headers;
+}
+
+export function formDataHeader(){
+  const headers={
+    'Content-Type': 'multipart/form-data',
+    'Authorization': "Bearer "+ localStorage.getItem("jwt")
+  }
+
+  return headers;
 }
 
 export const axiosError=(error)=>{

@@ -17,25 +17,41 @@ const AccountProfile = ({id}) =>{
     const [bio,setBio] =useState(null);
 
     const [owner,setOwner] = useState(false);
-    const accountId = useSelector(state=> state.Account.getIn(['account','id']));
+    // const accountId = useSelector(state=> state.Account.getIn(['account','id']));
+    const account = useSelector(state=> state.Account.get('account'));
 
+    function setData(){
+        setUId(account.id);
+        setNickname(account.nickname);
+        setThumbnail(account.thumbnail);
+        setBio(account.bio);
+        setMajor(account.major);
+        setPosition(account.position);
+    }
     useEffect(()=>{
-        getAccountProfile(id).then(responsedata =>{
-            setUId(responsedata.data.id);
-            //setThumbnail(responsedata.data.thumbnail);
-            setNickname(responsedata.data.nickname);
-            // setBio(responsedata.data.bio);
-            setBio("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu quam tortor. Nulla venenatis libero eget lectus varius rutrum. Ut euismod tristique facilisis. Curabitur lobortis mattis egestas. Fusce gravida, magna vel sollicitudin pellentesque, nisi mi ullamcorper eros, a mattis lectus dui quis quam. In ut sodales urna, ultrices maximus sem. Nullam tempor dolor vitae consequat volutpat. Curabitur eu orci in eros facilisis facilisis ac in quam. Fusce sodales mattis nunc quis vulputate.");
-            // setMajor(responsedata.data.major);
-            setMajor("영어학부");
-            setPosition(responsedata.data.position);
-            setOwner(responsedata.data.owner);
-        });
-    },[])
+        if(account.id == id){
+            setData();
+        }else{
+            getAccountProfile(id).then(responsedata =>{
+                setUId(responsedata.data.id);
+                setThumbnail(responsedata.data.thumbnail);
+                setNickname(responsedata.data.nickname);
+                // setBio(responsedata.data.bio);
+                setBio("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu quam tortor. Nulla venenatis libero eget lectus varius rutrum. Ut euismod tristique facilisis. Curabitur lobortis mattis egestas. Fusce gravida, magna vel sollicitudin pellentesque, nisi mi ullamcorper eros, a mattis lectus dui quis quam. In ut sodales urna, ultrices maximus sem. Nullam tempor dolor vitae consequat volutpat. Curabitur eu orci in eros facilisis facilisis ac in quam. Fusce sodales mattis nunc quis vulputate.");
+                // setMajor(responsedata.data.major);
+                setMajor("영어학부");
+                setPosition(responsedata.data.position);
+                setOwner(responsedata.data.owner);
+            });
+        }   
+    },[id]);
+
+    useEffect(()=>{setData();},[account]);
+
 
     return(
         <AccountProfileContainer>
-            { owner?<Link to={`/Profile/${accountId}/settings/account`}><SettingIcon icon={faCog}/></Link>:null }
+            { owner?<Link to={`/Profile/${uId}/settings/account`}><SettingIcon icon={faCog}/></Link>:null }
             <TextGroup><Icon icon={faBarcode} top={"2px"} /><TextDiv fontsize = {"1.3rem"}><p>{uId}</p></TextDiv></TextGroup>
             <AccountImage>
                 <ProfileImage 

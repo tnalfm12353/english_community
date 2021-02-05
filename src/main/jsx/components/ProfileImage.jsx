@@ -1,19 +1,32 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React,{useState} from 'react';
 import Jdenticon from 'react-jdenticon';
+import {getThumbnail} from '../lib/api/account/AccountApi'
 function ProfileImage ({thumbnail, nickname}){
-
-    const account = useSelector(state => state.Account.get('account'));
     
+    const [image, setImage] = useState(null);
+
+    function convertBlobToImage(blob){ 
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImage(reader.result);
+        };
+        reader.readAsDataURL(blob);
+    }
+
     function returnImage(){
         if(thumbnail != null){
-            console.log("thumbnail");
+            getThumbnail(thumbnail).then(result =>{
+                const blob = new Blob([result],{type:"image/png"});
+                convertBlobToImage(blob);
+            })
+            return <img style={{width:"100%",
+                                height:"100%",
+                                border:"1px solid #ccc",
+                                borderColor:"rgba(0,0,0,.2)",
+                                borderRadius:"10px",
+                                boxShadow:"0px 2px 12px rgb(0 0 0 / 20%)"}} src={image}/>
         }else if(nickname != null){
             return <Jdenticon value = {nickname}/>
-        }else if(account.thumbnail != null){
-            console.log("Accountthumbnail");
-        }else{
-            return <Jdenticon value = {account.nickname}/>
         }
     }
     return(

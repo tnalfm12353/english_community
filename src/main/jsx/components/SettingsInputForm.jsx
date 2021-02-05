@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SettingsInputForm = ({name, labelValue}) =>{
+const SettingInputForm = ({name,labelValue,onChange,onKeyPress}) =>{
 
     return(
         <GroupDiv>
-            <Input name={name} onChange={onChange} required="required"/>
+            <Input name={name} onChange={onChange} onKeyPress={onKeyPress} required="required"/>
             <Label>{labelValue}</Label>
         </GroupDiv>
     );
 }
-export default SettingsInputForm;
+
+export default SettingInputForm;
 
 const GroupDiv = styled.div`
     position:relative;
@@ -50,7 +51,7 @@ const Label = styled.label`
     -webkit-transition:0.5s all; 
 
     ${Input}:focus ~ & , ${Input}:valid ~ &{
-        top:0px;
+        top:-10px;
         left:20px;
         font-size:1rem;
         opacity: 0.7;

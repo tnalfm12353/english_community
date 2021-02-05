@@ -3,6 +3,7 @@ package hong.bufs.english_community.account;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hong.bufs.english_community.account.form.SignUpForm;
+import hong.bufs.english_community.accountSetting.form.NewNicknameForm;
+import hong.bufs.english_community.accountSetting.form.NewPasswordForm;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -56,4 +59,26 @@ public class AccountService implements UserDetailsService {
         return account;
     }
 
+    public void updateNickname(Account account,String newNickname){
+        account.setNickname(newNickname);
+        accountRepository.save(account);
+    }
+
+	public void updatePassword(Account account, NewPasswordForm newPasswordForm) {
+        if(!CheckedPassword(account,newPasswordForm.getMyPassword())){
+            throw new AuthenticationCredentialsNotFoundException("인증 정보가 정확하지 않습니다.");
+        }
+        
+        account.setPassword(passwordEncoder.encode(newPasswordForm.getNewPassword()));
+        accountRepository.save(account);
+    }
+    
+    private boolean CheckedPassword(Account account, String password) {
+        return passwordEncoder.matches(password, account.getPassword());
+    }
+
+	public void updateThumbnail(Account account, String imgName) {
+        account.setThumbnail(imgName);
+        accountRepository.save(account);
+	}
 }
