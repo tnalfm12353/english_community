@@ -6,13 +6,16 @@ import "cropperjs/dist/cropper.css";
 import UpdateButtonTemp from './UpdateButtonTemp.jsx';
 import { useDispatch } from 'react-redux';
 
-import { updateThumbnailApi } from '../lib/api/account/AccountApi';
+import { updateThumbnailApi, deleteThumbnailApi } from '../lib/api/account/AccountApi';
 import { updateData } from '../redux/modules/Account.js';
+import ImageFileUploader from '../components/ImageFileUploader.jsx';
+import TextFileUploader from '../components/TextFileUploader.jsx';
 
 const ThumbnailModal = ({onClose}) =>{
     const dispatch = useDispatch();
     const formData = new FormData();
 
+    const [imageName, setImageName] = useState(null);
     const [image, setImage] = useState(null);
     const [cropper, setCropper] = useState(null);
     
@@ -30,6 +33,7 @@ const ThumbnailModal = ({onClose}) =>{
         const reader = new FileReader();
         reader.onload = () => {
             setImage(reader.result);
+            setImageName(files[0].name);
         };
         reader.readAsDataURL(files[0]);
     };
@@ -50,9 +54,12 @@ const ThumbnailModal = ({onClose}) =>{
     };
 
     const handleDeleteThumbnail = () =>{
-
-        //이전에 프로필이 존재한다면 지움 없으면 그냥 리턴.
-        // deleteThumbnailApi()
+        deleteThumbnailApi().then(()=>{
+            dispatch(updateData({
+            name:"thumbnail",
+            value:null
+            }));
+        });
         onClose();
     }
 
@@ -60,11 +67,18 @@ const ThumbnailModal = ({onClose}) =>{
     return(
         <ContentContainer>
             <Content>
-                {image == null?<ResetButton onClick={handleDeleteThumbnail}>프로필 사진 없애기</ResetButton> : null}
-                <input type="file" accept="image/*" onChange={onChange} />
-                <br/>
+            {image == null?
+            <BeforeFileUpload>
+                <ImageFileUploader imageSize={"15em"} imageColor={"#c8c8c8"} isMultiple={false} onChange={onChange}/>
+                <DescriptionSpan>그림을 눌려 프로필 사진을 설정하세요</DescriptionSpan>
+                <ResetButton onClick={handleDeleteThumbnail}>프로필 사진 없애기</ResetButton>
+            </BeforeFileUpload>
+                :
+            <AfterFileUpload>
+                <TextFileUploader imageName={imageName} isMultiple={false} onChange={onChange}/>
+                <ChangeDescription>이미지를 변경하려면 위 영역 사진 업로드를 클릭하여 프로필 사진을 변경하세요</ChangeDescription>
                 <Cropper
-                    style={{ minHeight: "400px",height:"100%", width: "100%" }}
+                    style={{height:"auto", width: "auto" }}
                     aspectRatio={4/3}
                     
                     src={image}
@@ -80,6 +94,9 @@ const ThumbnailModal = ({onClose}) =>{
                         setCropper(instance);
                     }}
                 />
+                <ThumbnailDescription>원하는 영역을 드래그한 후 '프로필 사진으로 설정'을 클릭하세요</ThumbnailDescription>
+            </AfterFileUpload>
+            }       
             </Content>
             <UpdateButtonTemp
                 buttonValue = {"프로필 사진으로 설정"}
@@ -105,11 +122,51 @@ const Content = styled.div`
 `
 
 const ResetButton = styled.button`
+    position:absolute;
     font-weight:bold;
     color:#fff;
-
+    
     border:1px solid #ff8080;
     border-radius:5px;
     background:#ff8080cc;
     padding: .4em;
+
+    bottom:5%;
+    right:0;
+`
+
+const DescriptionSpan = styled.span`
+    position:absolute;
+    font-weight: bold;
+    color:#c8c8c8;
+
+    bottom:20%;
+    left:35%;
+    @media only screen and (max-width: 900px){
+        left:25%;
+    }
+    @media only screen and (max-width: 500px){
+        left:15%;
+    }
+`
+
+const BeforeFileUpload = styled.div`
+    position:relative;
+    height:400px;
+    padding-top:5%;
+`
+
+const AfterFileUpload = styled.div`
+    display:flex;
+    flex-direction:column;
+    min-height:400px;
+`
+
+const ChangeDescription = styled.span`
+    margin: 1em 0;
+    font-size:0.8rem;
+`
+
+const ThumbnailDescription = styled.span`
+    margin: 1em auto;
 `

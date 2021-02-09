@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import hong.bufs.english_community.account.form.SignUpForm;
 import hong.bufs.english_community.accountSetting.form.NewNicknameForm;
 import hong.bufs.english_community.accountSetting.form.NewPasswordForm;
+import hong.bufs.english_community.accountSetting.form.NewUserInfoForm;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -79,6 +80,11 @@ public class AccountService implements UserDetailsService {
 
 	public void updateThumbnail(Account account, String imgName) {
         account.setThumbnail(imgName);
+        accountRepository.save(account);
+	}
+
+	public void updateUserInfo(Account account, NewUserInfoForm newUserInfoForm) {
+        modelMapper.map(newUserInfoForm,account);
         accountRepository.save(account);
 	}
 }

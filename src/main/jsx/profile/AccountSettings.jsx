@@ -114,7 +114,7 @@ const ComponentContainer = styled.div`
     z-index:2;
     top:0;
     left:0;
-    width:100%;
+    width:90%;
     height:auto;
     
     background: #fff;
@@ -123,4 +123,12 @@ const ComponentContainer = styled.div`
     box-shadow: 0px 4px 10px rgba(0,0,0,.2);
     color:#000;
     border-radius: 8px;
+
+    @media only screen and (max-width: 1300px){
+        width:95%;
+    }
+
+    @media only screen and (max-width: 800px){
+        width:100%;
+    }
 `

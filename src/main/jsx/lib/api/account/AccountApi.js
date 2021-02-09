@@ -63,7 +63,16 @@ export function updateThumbnailApi(data){
               .catch(error =>({error}));
 }
 
-export function getThumbnail(data){
+export function deleteThumbnailApi(){
+  return axios.get('/auth/account/settings/thumbnail/delete',{headers:tokenHeader()})
+}
 
+export function getThumbnail(data){
   return axios.get('/profile/thumbnail/'+data,{responseType:'arraybuffer'}).then(response=>response.data).catch(error=>({error}));
+}
+
+export function updateUserInfo(data){
+  return axios.post('/auth/account/settings/user-info',data,{headers:tokenHeader()})
+              .then(response=>({response}))
+              .catch(error=>({error}));
 }

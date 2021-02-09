@@ -68,4 +68,6 @@ const DropOutButton = styled.button`
     border-radius:5px;
     background:#ff0606cc;
     padding: .4em;
+
+    opacity:.2;
 `

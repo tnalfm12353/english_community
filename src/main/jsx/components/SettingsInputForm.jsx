@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SettingInputForm = ({name,labelValue,onChange,onKeyPress}) =>{
+const SettingInputForm = ({type,name,value,labelValue,onChange,onKeyPress}) =>{
 
     return(
         <GroupDiv>
-            <Input name={name} onChange={onChange} onKeyPress={onKeyPress} required="required"/>
+            <Input type={type} name={name} onChange={onChange} value={value} onKeyPress={onKeyPress} required="required"/>
             <Label>{labelValue}</Label>
         </GroupDiv>
     );

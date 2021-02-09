@@ -10,7 +10,7 @@ import UpdateButtonTemp from './UpdateButtonTemp.jsx';
 const NicknameForm = ({onClose}) =>{
     const dispatch = useDispatch();
 
-    const [nickname,setNickname] = useState(null);
+    const [nickname,setNickname] = useState(undefined);
     const [errorMsg, setErrorMsg] = useState("특수문자를 제외한 2~10자");
     const [validNickname, setValidNickname] = useState(false);
     const {nickCheck, regExp} = validationForm;

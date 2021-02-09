@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 import ProfileImage from '../components/ProfileImage.jsx';
 import {getAccountProfile} from '../lib/api/account/AccountApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBarcode, faBullhorn , faQuestion , faBook ,faCog } from '@fortawesome/free-solid-svg-icons';
-import { faUser  } from '@fortawesome/free-regular-svg-icons';
+import { faBarcode, faBullhorn , faQuestion , faBook ,faCog ,faPencilAlt ,faGraduationCap, faChalkboardTeacher} from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { useSelector } from 'react-redux';
 const AccountProfile = ({id}) =>{
 
@@ -27,6 +27,7 @@ const AccountProfile = ({id}) =>{
         setBio(account.bio);
         setMajor(account.major);
         setPosition(account.position);
+        setOwner(true);
     }
     useEffect(()=>{
         if(account.id == id){
@@ -41,13 +42,25 @@ const AccountProfile = ({id}) =>{
                 // setMajor(responsedata.data.major);
                 setMajor("영어학부");
                 setPosition(responsedata.data.position);
-                setOwner(responsedata.data.owner);
+                setOwner(false);
             });
         }   
     },[id]);
 
     useEffect(()=>{setData();},[account]);
 
+    function positionIcon(){
+        switch(position){
+            case "STUDENT" : return <Icon icon={faPencilAlt} top={"0"}/>
+                break;
+            case "GRADUATION": return <Icon icon={faGraduationCap} top={"0"}/>
+                break;
+            case "PROFESSOR" : return <Icon icon={faChalkboardTeacher} top={"0"}/>
+                break;
+            default : return <Icon icon={faQuestion} top={"0"}/>
+                break;
+        }
+    }
 
     return(
         <AccountProfileContainer>
@@ -60,9 +73,9 @@ const AccountProfile = ({id}) =>{
             </AccountImage>
             <TextGroup><Icon icon={faUser} top={"8px"}/><TextDiv fontsize = {"2rem"}><p>{nickname}</p></TextDiv></TextGroup>
             {major != null?<TextGroup><Icon icon={faBook} top={"8px"}/><TextDiv  fontsize = {"2rem"}><p>{major}</p></TextDiv></TextGroup>:null}
-            {/* 1~4학년 연필 // 졸업생은 졸업 // 교수님은 수업 */}
-            {position != null?<TextGroup><Icon icon={faQuestion} top={"0"}/><TextDiv fontsize = {"1rem"}><p>{position}</p></TextDiv></TextGroup>:null}
+            {position != null?<TextGroup>{ positionIcon() }<TextDiv fontsize = {"1rem"}><p>{position}</p></TextDiv></TextGroup>:null}
             {bio != null?<TextGroup><Icon icon={faBullhorn} top={"2px"}/><TextDiv fontsize = {"1rem"}><p>{bio}</p></TextDiv></TextGroup>:null}
+            {/* 이름, 학번 추가와 공개할 것인지 비공개 할것인지 추가로 해야댐. */}
         </AccountProfileContainer>
     );
 }

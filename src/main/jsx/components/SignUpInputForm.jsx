@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SignUpInputForm = ({name,labelValue,onChange,onKeyPress,validated,ErrorMSG}) =>{
+const SignUpInputForm = ({name,labelValue,onChange,value,onKeyPress,validated,ErrorMSG}) =>{
 
     return(
         <GroupDiv onClick={(e)=>e.stopPropagation()}>
-            <Input name={name} onChange={onChange} onKeyPress={onKeyPress} required="required"/>
+            <Input name={name} onChange={onChange} value={value} onKeyPress={onKeyPress} required="required"/>
             <Label>{labelValue}</Label>
             <CheckedMark valid={validated}>{validated?"✓":"×"}</CheckedMark>
             {ErrorMSG === null ?null:<Span>{ErrorMSG}</Span>}
