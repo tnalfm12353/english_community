@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
-import ProfileImage from '../components/ProfileImage.jsx';
 import AccountModalTemp from './AccountModalTemp.jsx';
 import MyThumbnail from '../components/MyThumbnail.jsx';
 
@@ -55,7 +54,7 @@ const AccountSettings = () =>{
             
 
             <LineSettingButton name ="password" onClick={(e)=>callTemplate(e)}>
-                <SettingSubject name ="password">비밀번호</SettingSubject> <CurrentInformation name ="password">&middot; &middot; &middot; &middot; &middot; &middot;</CurrentInformation>
+                <SettingSubject name ="password">비밀번호</SettingSubject> <CurrentInformation name ="password">&middot; &middot; &middot; &middot; &middot;</CurrentInformation>
                 <FontAwesomeIcon icon={faChevronCircleRight} size="lg"/>
             </LineSettingButton>
 

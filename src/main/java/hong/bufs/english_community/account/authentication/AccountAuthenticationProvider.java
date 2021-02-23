@@ -8,7 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import hong.bufs.english_community.account.Account;
+import hong.bufs.english_community.domain.Account;
 import hong.bufs.english_community.account.AccountRepository;
 import hong.bufs.english_community.account.AccountContext;
 import hong.bufs.english_community.account.authentication.token.AuthenticatedUserToken;

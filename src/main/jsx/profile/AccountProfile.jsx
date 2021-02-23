@@ -17,7 +17,6 @@ const AccountProfile = ({id}) =>{
     const [bio,setBio] =useState(null);
 
     const [owner,setOwner] = useState(false);
-    // const accountId = useSelector(state=> state.Account.getIn(['account','id']));
     const account = useSelector(state=> state.Account.get('account'));
 
     function setData(){

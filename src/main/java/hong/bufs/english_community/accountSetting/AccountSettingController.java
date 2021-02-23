@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import hong.bufs.english_community.account.Account;
+import hong.bufs.english_community.domain.Account;
 import hong.bufs.english_community.account.AccountContext;
 import hong.bufs.english_community.account.AccountService;
 import hong.bufs.english_community.account.CurrentAccount;
@@ -33,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 public class AccountSettingController {
     
     private final AccountService accountService;
-    private final ModelMapper modelMapper;
 
     @PostMapping("thumbnail")
     public ResponseEntity<?> updateThumbnail(@CurrentAccount AccountContext context, @ModelAttribute NewThumbnailForm newThumbnailForm){

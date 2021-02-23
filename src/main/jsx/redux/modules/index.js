@@ -2,10 +2,12 @@ import { combineReducers } from 'redux';
 import {tokenHeader} from '../../lib/api/AxiosConfig';
 import Account from './Account';
 import UpdateAccount from './UpdateAccount';
+import CreatePost from './CreatePost';
 
 const combineReducer = combineReducers({
     Account,
-    UpdateAccount
+    UpdateAccount,
+    CreatePost
 });
 
 

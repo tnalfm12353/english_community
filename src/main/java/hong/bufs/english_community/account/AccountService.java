@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hong.bufs.english_community.account.form.SignUpForm;
-import hong.bufs.english_community.accountSetting.form.NewNicknameForm;
 import hong.bufs.english_community.accountSetting.form.NewPasswordForm;
 import hong.bufs.english_community.accountSetting.form.NewUserInfoForm;
+import hong.bufs.english_community.domain.Account;
 import lombok.RequiredArgsConstructor;
 
 @Service

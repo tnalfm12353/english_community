@@ -1,6 +1,5 @@
 package hong.bufs.english_community.account;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,9 +8,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.CacheControl;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import hong.bufs.english_community.account.form.ExistValidForm;
 import hong.bufs.english_community.account.form.ResponseAccountForm;
 import hong.bufs.english_community.account.form.SignUpForm;
+import hong.bufs.english_community.domain.Account;
 import hong.bufs.english_community.responses.BasicResponse;
 import hong.bufs.english_community.responses.CommonResponse;
-import hong.bufs.english_community.responses.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller

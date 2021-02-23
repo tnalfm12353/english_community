@@ -51,7 +51,7 @@ const Label = styled.label`
     -webkit-transition:0.5s all; 
 
     ${Input}:focus ~ & , ${Input}:valid ~ &{
-        top:-10px;
+        top:0;
         left:20px;
         font-size:1rem;
         opacity: 0.7;

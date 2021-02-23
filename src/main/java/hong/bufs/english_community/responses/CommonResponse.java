@@ -1,7 +1,5 @@
 package hong.bufs.english_community.responses;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
