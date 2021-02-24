@@ -32,7 +32,7 @@ public class PostController {
     public ResponseEntity<?> createPost(@CurrentAccount AccountContext context, @ModelAttribute CreatePostForm createPostForm){
         Account account = accountService.getUserAccount(context);
         List<String> filePaths = new ArrayList<String>();
-
+        
         if(createPostForm.getFiles() != null){
             for (MultipartFile file : createPostForm.getFiles()) {
                 int i = 1;
@@ -41,6 +41,9 @@ public class PostController {
                 String imgName = account.getId()+"_"+ curDateTime+"_"+i;
                 try {
                     File imagefile = new File("D:/Eng_community/english_community/src/main/webapp/uploadPost/"+curDate+"/"+imgName);
+                    if(!imagefile.exists()){
+                        imagefile.mkdirs();
+                    }
                     file.transferTo(imagefile);
                 } catch (Exception e) {
                     System.out.println(e);

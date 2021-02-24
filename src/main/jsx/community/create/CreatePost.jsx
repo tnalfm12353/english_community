@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as createPostActions from '../../redux/modules/CreatePost';
 import styled from 'styled-components';
 
+import { resizeFile,dataURLtoBlob } from '../../lib/api/fileConvert';
 import CreatePostTemp from './CreatePostTemp.jsx';
 import PostInputForm from './PostInputForm.jsx';
 import PostEtcButton from './PostEtcButton.jsx';
@@ -40,12 +41,17 @@ const CreatePost = ({onClose}) =>{
         for(let i=0;i<e.target.files.length;i++){
             const reader = new FileReader();
             reader.onload = () => {
-                const file = reader.result;
-                id++;
-                dispatch(createPostActions.changeFile({
-                    id,
-                    file,
-                })); 
+                const mimeString = reader.result.split(',')[0].split(':')[1].split(';')[0];
+                const image = new Image();
+                image.src = reader.result;
+                image.onload = () =>{
+                    const file = resizeFile(image,mimeString);
+                    id++;
+                    dispatch(createPostActions.changeFile({
+                        id,
+                        file,
+                    })); 
+                }
             };            
             reader.readAsDataURL(handleFiles[i]);
         }
