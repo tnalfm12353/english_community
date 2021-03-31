@@ -5,7 +5,7 @@ const SettingInputForm = ({type,name,value,labelValue,onChange,onKeyPress}) =>{
 
     return(
         <GroupDiv>
-            <Input type={type} name={name} onChange={onChange} value={value} onKeyPress={onKeyPress} required="required"/>
+            <InputStyle type={type} name={name} onChange={onChange} value={value} onKeyPress={onKeyPress} required="required"/>
             <Label>{labelValue}</Label>
         </GroupDiv>
     );
@@ -18,7 +18,7 @@ const GroupDiv = styled.div`
     flex-basis:1;
     margin-bottom:1rem;
 `
-const Input = styled.input`
+const InputStyle = styled.input`
     font-size:1.5rem;
     margin:1rem;
     padding:10px 10px 10px 5px;
@@ -50,7 +50,7 @@ const Label = styled.label`
     -moz-transition:0.5s all; 
     -webkit-transition:0.5s all; 
 
-    ${Input}:focus ~ & , ${Input}:valid ~ &{
+    ${InputStyle}:focus ~ & , ${InputStyle}:valid ~ &{
         top:0;
         left:20px;
         font-size:1rem;
@@ -63,7 +63,7 @@ const Label = styled.label`
         top:10px;
         left:32px;
 
-        ${Input}:focus ~ & , ${Input}:valid ~ &{
+        ${InputStyle}:focus ~ & , ${InputStyle}:valid ~ &{
             top:-10px;
             left:30px;
             font-size:1rem;

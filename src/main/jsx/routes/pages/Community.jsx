@@ -4,30 +4,39 @@ import styled from 'styled-components';
 import {device} from '../../lib/style/Device';
 import PostIcon from '../../../webapp/img/pencil_icon.png';
 import CreatePost from '../../community/create/CreatePost.jsx';
-import Axios from 'axios';
+import PostPagination from '../../community/PostPagination.jsx';
+import CommunityBasicTemplate from '../../community/CommunityBasicTemplate.jsx';
+import ForumTypeSticky from '../../community/ForumTypeSticky.jsx';
+import { useSelector } from 'react-redux';
 
 const Community = () =>{
     const canvasIconRef = useRef();
-    const forumType = [];
-    const selectedForum = "all";
-    // account가 null이라면 버튼 없애기.
+    const authenticated = useSelector(state=> state.Account.get('authenticated'));
+
+    const notice = "학생회 혹은 학교 공지";
+
+    const[selectedForum, setSelectedForum] = useState('general'); //현재 고른 포럼.
+    const[postViewType, setPostViewType] = useState('card'); // 게시글을 카드형태, 라인형태(쿠키사용)
+    const[hits, setHits] = useState(true); //true ->인기 게시글 false -> 새 게시물.
+
+    
     const [createPost, setCreatePost] = useState(false);
 
-
-    function callCreatePost(){setCreatePost(true);}
-
-    function closeCreatePost(){setCreatePost(false);}
+    function callCreatePost(){ if(authenticated) setCreatePost(true); }
+    function closeCreatePost(){ setCreatePost(false); }
     
     useEffect(()=>{
-        const canvas = canvasIconRef.current;
-        const ctx = canvas.getContext('2d');
-        
-        let iconImage = new Image();
-        iconImage.src = PostIcon;
-        iconImage.addEventListener('load',()=>{
-           ctx.drawImage(iconImage,0,0,64,64);
-        });
-    },[]);
+        if(authenticated){
+            const canvas = canvasIconRef.current;
+            const ctx = canvas.getContext('2d');
+            
+            let iconImage = new Image();
+            iconImage.src = PostIcon;
+            iconImage.addEventListener('load',()=>{
+               ctx.drawImage(iconImage,0,0,64,64);
+            });
+        }
+    },[authenticated]);
 
     // getForumTypes(){
     //     Axios.get('Post/GetForumTypes',{
@@ -52,22 +61,22 @@ const Community = () =>{
     
     return(
         <CommunityContainer>
-            <CommunityNavi>
-
-            </CommunityNavi>
+            <EmptySpace />
             <CommunityContent>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <Temp>gdgd</Temp>
-                {/* <StickyNavi forumTypes = {forumTypes} onChange={onClickSelectedForum}/> */}
-                <CreatePostIcon ref={canvasIconRef} width="64" height="64"  onClick={()=>{callCreatePost()}}></CreatePostIcon>
+                <CommunityBasicTemplate
+                    content = {notice}
+                />
+                <ForumTypeSticky hits = {hits}/>
+                <PostPagination 
+
+
+                />
+                {authenticated &&
+                <CreatePostIcon ref={canvasIconRef} width="64" height="64"  onClick={()=>{callCreatePost()}}></CreatePostIcon>}
             </CommunityContent>
-            <CommunityTemp></CommunityTemp>
+            <CommunityStudyGroupNotice>
+               스터디 그룹을 간략하게
+            </CommunityStudyGroupNotice>
             {
                 createPost?
                 <CreatePost
@@ -84,21 +93,25 @@ export default Community;
 const CommunityContainer = styled.div`
     display:flex;
     width:100%;
-    height:200vh;
+    height:auto;
     top:0;
 `
 
-const CommunityNavi = styled.div`
+const EmptySpace = styled.div`
     flex-grow:1;
-    
-    @media ${device.mobileL}{
+
+    @media ${device.laptop}{
         display:none;
     }
 `
 
 const CommunityContent = styled.div`    
-    min-width: 60vw;
+    width:60%;
     flex-grow:3;
+
+    @media ${device.laptop}{
+        width: 100%;
+    }
 `
 const CreatePostIcon = styled.canvas`
     position: fixed;
@@ -107,6 +120,7 @@ const CreatePostIcon = styled.canvas`
     width:4rem;
     height:4rem;
     border-radius: 50%;
+    border:1px solid #eee;
     background: rgba(255,255,255,0.1);
     backdrop-filter: saturate(180%) blur(3px);
     
@@ -121,19 +135,10 @@ const CreatePostIcon = styled.canvas`
     }
 
 `
-const CommunityTemp = styled.div`
+const CommunityStudyGroupNotice = styled.div`
     flex-grow:1;
+
     @media ${device.laptop}{
         display:none;
     }
-`
-
-const Temp =  styled.div`
-    margin:auto;
-    position:sticky;
-    top:55px;
-    width: 300px;
-    height: 100px;
-    border:1px solid #ffca;
-    background:#ffca;
 `

@@ -39,6 +39,9 @@ public class AccountSettingController {
         String imgName = account.getId()+"_"+curDateTime;
         try {            
             File imagefile = new File("D:/Eng_community/english_community/src/main/webapp/uploadedThumbnail/"+imgName);
+            if(!imagefile.exists()){
+                imagefile.mkdirs();
+            }
             file.transferTo(imagefile);
         } catch (IOException e) {
             System.out.println(e);

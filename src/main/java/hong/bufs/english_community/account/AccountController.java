@@ -77,19 +77,6 @@ public class AccountController {
         return modelMapper.map(account,ResponseAccountForm.class);
     }
 
-    // @GetMapping("/profile/thumbnail/{imageName}")
-    // public ResponseEntity<byte[]> getUserThumbnail (@PathVariable String imageName)throws IOException{
-        
-    //     HttpHeaders headers = new HttpHeaders();
-    //     InputStream inputStream = servletContext.getResourceAsStream("/uploadedThumbnail/" +imageName);
-    //     byte[] imageByteArray = IOUtils.toByteArray(inputStream);
-    //     headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
-    //     ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(imageByteArray,headers,HttpStatus.OK);
-
-    //     return responseEntity;
-    // }
-
     @GetMapping("/profile/thumbnail/{imageName}")
     public @ResponseBody byte[] getUserThumbnail (@PathVariable String imageName)throws IOException{
         InputStream inputStream = servletContext.getResourceAsStream("/uploadedThumbnail/" +imageName);

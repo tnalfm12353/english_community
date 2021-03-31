@@ -1,5 +1,5 @@
 import {createAction, handleActions} from 'redux-actions';
-import {Map} from 'immutable';
+import {List, Map} from 'immutable';
 
 const INITIALIZE_FORM = 'Account/INITIALIZE_FORM';
 const CHANGE_INPUT = 'LoginAuth/CHANGE_INPUT';
@@ -7,17 +7,18 @@ const CHANGE_INPUT = 'LoginAuth/CHANGE_INPUT';
 
 export const REQUEST_LOGIN = 'Account/REQUEST_LOGIN';
 export const LOGIN_SUCCESS = 'Account/LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'ACcouunt/LOGIN_FAILURE';
+export const LOGIN_FAILURE = 'Account/LOGIN_FAILURE';
 export const FETCH_ACCOUNT = 'Account/FETCH_ACCOUNT';
 export const LOGOUT = 'Account/LOGOUT';
-export const UPDATED_DATA = 'LoginAuth/UPDATE_DATA';
+export const UPDATED_DATA = 'Account/UPDATE_DATA';
+export const UPDATE_THUMBSUP = 'Account/UPDATE_THUMBSUP';
 
 export const changeInput = createAction(CHANGE_INPUT); 
 export const getAccountFetch = createAction(FETCH_ACCOUNT);
 export const requestLogin = createAction(REQUEST_LOGIN);
 export const logOut = createAction(LOGOUT);
 export const updateData = createAction(UPDATED_DATA);
-
+export const updateThumbsUp = createAction(UPDATE_THUMBSUP);
 
 const initialState = Map({
     loginForm: Map({
@@ -27,6 +28,10 @@ const initialState = Map({
     account:Map({
         
     }),
+
+    // myThumbsUp:List({
+
+    // }),
     errorMessage:null,
     authenticated:false
 });
@@ -50,7 +55,7 @@ export default handleActions({
     [UPDATED_DATA]:(state,action) =>{        
         const {name,value} = action.payload;
         return state.setIn(['account',name],value);
-    }
+    },
 
 },initialState)
 

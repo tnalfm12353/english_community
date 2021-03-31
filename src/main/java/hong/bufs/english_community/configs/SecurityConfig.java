@@ -75,10 +75,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authenticationProvider(this.jwtAuthenticationProvider);
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers("/src/main/webapp/img/**")
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
-
 }

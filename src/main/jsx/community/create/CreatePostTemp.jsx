@@ -19,25 +19,26 @@ const CreatePostTem =({onClose,inputform,etctem,etcbutton,nextStep,onCreate}) =>
                 break;
         }
         return initialState
-    })
-        return(
-            <CreateMain onClick={(e)=>e.stopPropagation()}>
-                <Header>{randomTitle}</Header><CloseButton onClick={()=>onClose()}>&times;</CloseButton>
-                <Line/>
-                <ScrollBox>
-                    <InputWrapper>
-                        {inputform}
-                    </InputWrapper>
-                    <EtcWrapper>
-                        {etctem}
-                    </EtcWrapper>
-                </ScrollBox>
-                <EtcButton>
-                    {etcbutton}
-                </EtcButton>
-                <PostButton onClick={()=>{onCreate()}}>Create Post</PostButton>
-            </CreateMain>
-        );
+    });
+
+    return(
+        <CreateMain onClick={(e)=>e.stopPropagation()}>
+            <Header>{randomTitle}</Header><CloseButton onClick={()=>onClose()}>&times;</CloseButton>
+            <Line/>
+            <ScrollBox>
+                <InputWrapper>
+                    {inputform}
+                </InputWrapper>
+                <EtcWrapper>
+                    {etctem}
+                </EtcWrapper>
+            </ScrollBox>
+            <EtcButton>
+                {etcbutton}
+            </EtcButton>
+            <PostButton onClick={()=>{onCreate()}}>Create Post</PostButton>
+        </CreateMain>
+    );
 }
 
 

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as createPostActions from '../../redux/modules/CreatePost';
 import styled from 'styled-components';
 
-import { resizeFile,dataURLtoBlob } from '../../lib/api/fileConvert';
+import { resizeFile } from '../../lib/api/fileConvert';
 import CreatePostTemp from './CreatePostTemp.jsx';
 import PostInputForm from './PostInputForm.jsx';
 import PostEtcButton from './PostEtcButton.jsx';
@@ -11,8 +11,17 @@ import ImgPreviewTemp from './ImgPreviewTemp.jsx';
 const CreatePost = ({onClose}) =>{
     const dispatch = useDispatch();
     
-    const postInfo = useSelector(state => state.CreatePost.getIn(['post','inputValues']));
+    const postInfo = useSelector(state => state.CreatePost.getIn(['post','inputValues'])).toJS();
     const files = useSelector(state => state.CreatePost.getIn(['post','files']));
+
+    useEffect(()=>{
+        //create post component를 생성하면 글이나 그림이 스크롤 생길 시 커뮤니티페이지의 스크롤을 방지하기 위해
+        document.body.style.overflow = 'hidden';
+
+        return(()=>{
+            document.body.style.overflow = 'unset';
+        });
+    },[]);
 
     function handleInputChange(e){
         const { name , value } = e.target;
@@ -103,6 +112,9 @@ const Overlay = styled.div`
     top: 0;
     left: 0;
     background-color: rgba(0,0,0,.16);
+    
+    z-index:4;
+
     @media only screen and (max-width:767px){
         top:60px;
     }

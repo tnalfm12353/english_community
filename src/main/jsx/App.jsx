@@ -1,8 +1,10 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import GlobalStyle from './lib/style/GlobalStyle'
 
+import {getAccountFetch} from './redux/modules/Account';
+import { useDispatch } from 'react-redux';
 import MainRouter from './routes/MainRouter.jsx';
 
 import StoreConfig from './redux/StoreConfig';
@@ -10,15 +12,21 @@ import { Provider } from 'react-redux';
 
 const store = StoreConfig();
 
-class App extends React.Component {
+const App = () => {
     
-    render() {
-        return(
-            <FullLayout>
-                <MainRouter/>
-            </FullLayout>
-        );
-    }
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if(localStorage.getItem('jwt') != null){
+             dispatch(getAccountFetch());
+        }
+    },[])
+
+    return(
+        <FullLayout>
+            <MainRouter/>
+        </FullLayout>
+    );
 
 }
 

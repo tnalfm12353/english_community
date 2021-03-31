@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,13 +26,13 @@ import lombok.Setter;
 @SequenceGenerator(
     name = "ACCOUNT_SEQ_GENERATOR",
     sequenceName = "ACCOUNT_SEQUENCE",
-    initialValue = 3,
+    initialValue = 1,
     allocationSize = 1
 )
 @Entity
 @Setter @Getter @EqualsAndHashCode(of = "id")
 @Builder @AllArgsConstructor @NoArgsConstructor
-public class Account {
+public class Account extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNT_SEQ_GENERATOR")
     private Long id;
@@ -57,10 +58,26 @@ public class Account {
     private String bio; // 자기소개
 
     private String thumbnail;
-    //Todo 프로필 이미지와 백그라운드 이미지 추가하기!
     
     private boolean isEnglishMajor; //추후 교수님이나 조교 등 확인해준다면 인증된 계정으로 만들 예정.
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Post> posts = new HashSet<>();
+
+    // 양방향으로 할려 했지만.. 
+    // Could not read entity state from ResultSet : EntityKey[hong.bufs.english_community.domain.Post#2]] with root cause
+    // java.lang.NumberFormatException: 1222021-03-30 22:12:18.0000002021-03-30 22:12:18.0000001 ?뀋?뀕?뀋  0 ?뀕?뀋?뀋
+    // 이 에러를 도저히 못 고치겠어서 포기함..
+    // public void addPost(Post post){
+    //     this.posts.add(post);
+    //     if(post.getAccount() != this){
+    //         post.setAccount(this);
+    //     }
+    // }
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private Set<PostComment> postComments = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<AccountPostThumbsUp> thumbsUpPosts = new HashSet<>();
 }

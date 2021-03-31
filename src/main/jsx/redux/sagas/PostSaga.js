@@ -8,6 +8,7 @@ const getCreatePost = (state) =>{
 export function* createPost(){
     const post = yield select(getCreatePost);
     console.log(post);
-    // const {response,error} = yield call(createPostApi,post);
-    yield call(createPostApi,post);
+    const {response,error} = yield call(createPostApi,post);
+
+    
 }

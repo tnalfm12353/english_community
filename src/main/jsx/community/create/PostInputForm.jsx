@@ -1,13 +1,8 @@
-import React,{useState,useRef} from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import TextareaAutoSize from '../../components/TextareaAutoSize.jsx';
 
 const PostInputForm = ({onChange,title,content}) =>{
-    const ContentRef =  useRef(null);
-
-    const [fontSize,setFontSize] = useState(1.25);
-    const [maxRows,setMaxRows] = useState(8);
-    const [value,setValue] = useState();
-    
     return(
         <InputFormContainer>
             <TitleArea>
@@ -18,13 +13,13 @@ const PostInputForm = ({onChange,title,content}) =>{
                 />
             </TitleArea>
             <ContentArea>
-                <ContentInput placeholder="Content"
-                    fontSize={fontSize} 
-                    minRows={4}
-                    maxRows={maxRows}
+                <TextareaAutoSize 
+                    placeholder={"Content"}
                     name="content"
-                    value={content}
-                    onChange = {onChange}/>
+                    maxRows={8}
+                    minRows={1}
+                    textValue={content}
+                    handleChange = {onChange}/>
             </ContentArea>
         </InputFormContainer>
     );
@@ -60,14 +55,4 @@ const ContentArea = styled.div`
     width:100%;
     height:auto;
     margin:.5rem 0;
-`
-
-const ContentInput = styled.textarea`
-    font-family: 'Jua', sans-serif;
-    font-size:${props => props.fontSize}rem;
-    width:100%;
-
-    resize:none;
-    outline:none;
-    border:none;
 `

@@ -1,63 +1,57 @@
 package hong.bufs.english_community.post;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.IOUtils;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import hong.bufs.english_community.domain.Account;
-import hong.bufs.english_community.account.AccountContext;
-import hong.bufs.english_community.account.AccountService;
-import hong.bufs.english_community.account.CurrentAccount;
-import hong.bufs.english_community.post.form.CreatePostForm;
+import hong.bufs.english_community.domain.Post;
+import hong.bufs.english_community.post.form.ResponsePostForm;
+import hong.bufs.english_community.responses.CommentResponseList;
+import hong.bufs.english_community.responses.CommonResponse;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/auth/post/")
+@RequestMapping("/post/")
 @RequiredArgsConstructor
 public class PostController {
     
-    private final AccountService accountService;
     private final PostService postService;
+    private final ModelMapper modelMapper;
+    private final ServletContext servletContext;
 
-    @PostMapping("create-post")
-    public ResponseEntity<?> createPost(@CurrentAccount AccountContext context, @ModelAttribute CreatePostForm createPostForm){
-        Account account = accountService.getUserAccount(context);
-        List<String> filePaths = new ArrayList<String>();
-        
-        if(createPostForm.getFiles() != null){
-            for (MultipartFile file : createPostForm.getFiles()) {
-                int i = 1;
-                String curDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-                String curDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-                String imgName = account.getId()+"_"+ curDateTime+"_"+i;
-                try {
-                    File imagefile = new File("D:/Eng_community/english_community/src/main/webapp/uploadPost/"+curDate+"/"+imgName);
-                    if(!imagefile.exists()){
-                        imagefile.mkdirs();
-                    }
-                    file.transferTo(imagefile);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }
+    @GetMapping("get-posts")
+    public ResponseEntity<?> getPosts (/*@RequestBody ForumTypeForm forumTypeForm */){ 
+        List<Post> posts = postService.getPosts();
+        List<ResponsePostForm> responsePostForm = convertPostListToResponsePostForm(posts);
+        return ResponseEntity.ok().body(new CommentResponseList<ResponsePostForm>(responsePostForm));
+    }
 
-                filePaths.add(imgName);
-                i++;
-            }
-        }
+    @GetMapping(value = "get-image/{imageName}")
+    public @ResponseBody byte[] getPostImage (@PathVariable String imageName) throws Exception{
+        String folderName = imageName.substring(2,10);
+        InputStream inputStream = servletContext.getResourceAsStream("/uploadPost/"+folderName+"/"+imageName);
+        return IOUtils.toByteArray(inputStream);
+    }
 
-        System.out.println(createPostForm.getContent());
-        
-        // postService.createPost(account,createPostForm,filePaths);
+    private List<ResponsePostForm> convertPostListToResponsePostForm(List<Post> posts){
+        return posts.stream().map( entity -> modelMapper.map(entity, ResponsePostForm.class)).collect(Collectors.toList());
+    }
 
-        return ResponseEntity.ok().build();
+    private ResponsePostForm convertPostToResponsePostForm(Post post){
+        return modelMapper.map(post, ResponsePostForm.class);
     }
 }

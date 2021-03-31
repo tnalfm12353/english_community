@@ -20,7 +20,7 @@ const initialState = fromJS({
             postType:"",
         inputValues: Map({
             title: "",
-            content: "",
+            content:""
         }),
         files:List([
         

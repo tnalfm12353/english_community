@@ -115,7 +115,9 @@ const UserSettings = () =>{
     function handleUpdateUserInfo(){
         const data = JSON.stringify({name:name, major:major, studentNumber:studentNum, position:positionType,bio:bio});
         updateUserInfo(data).then(result =>{
-            console.log(result);
+            if(result.response.status === 200){
+                alert('개인 정보를 변경했습니다.');
+            }
         })
     }
 
@@ -143,16 +145,6 @@ const UserSettingsContainer = styled.div`
     flex-direction:column;
     padding:2rem 1rem;
     height:auto;
-`
-
-const TextDiv = styled.div`
-    display:flex;
-    align-items:center;
-    margin-left:2rem;
-
-    color:black;
-    font-size:1.5rem;
-    
 `
 
 const UpdateButton = styled.button`

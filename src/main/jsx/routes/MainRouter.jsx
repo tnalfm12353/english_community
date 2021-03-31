@@ -1,21 +1,10 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import {device} from '../lib/style/Device';
 import {Route, Switch, BrowserRouter as Router} from 'react-router-dom';
-import {Home, About, NotFound, Community, Schedule, Login, SignUp ,Profile} from './pages';
+import {Home, About, NotFound, Community, Schedule, Login, SignUp ,Profile, StudyGroup} from './pages';
 import Header from '../containers/Header.jsx';
-import {getAccountFetch} from '../redux/modules/Account';
-import { useDispatch } from 'react-redux';
 
 const MainRouter = () =>{
-    const dispatch = useDispatch();
-
-    useEffect(()=>{
-        if(localStorage.getItem('jwt') != null){
-             dispatch(getAccountFetch());
-        }
-    })
-
     return(
         <Router>
             <Header/>
@@ -24,6 +13,7 @@ const MainRouter = () =>{
                     <Route exact path = "/" component={Home}/>
                     <Route path= "/about" component={About}/>
                     <Route path="/community" component={Community}/>
+                    <Route path="/studyGroup" component={StudyGroup}/>
                     <Route path="/schedule" component={Schedule}/>
                     <Route path="/login" component={Login}/>
                     <Route path="/signUp" component={SignUp}/>
