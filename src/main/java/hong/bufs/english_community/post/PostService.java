@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import hong.bufs.english_community.account.AccountRepository;
@@ -38,8 +39,12 @@ public class PostService {
 	}
 
 
-    public List<Post> getPosts(){
-        return postRepository.findAll();
+    public List<Post> getNewPosts(long postId){
+        if(postId != 0){
+            return postRepository.findByIdLowerThanParamDESC(postId);
+        }else{
+            return postRepository.findByIdFirstTimeGetPosts();
+        }
     }
 
     public Post getPost(Long postId){

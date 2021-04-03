@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown,faFire } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import ForumToggle from '../components/ForumToggle.jsx';
-const ForumTypeSticky = ({hits}) =>{
+const ForumTypeSticky = ({hits, setHits}) =>{
     const toggleContainer = useRef(null);
     const [toggle,setToggle] = useState(false);
     //색 변경을 위한 변수
@@ -20,7 +20,6 @@ const ForumTypeSticky = ({hits}) =>{
             setPopular(false);
             setNewPost(true);
         }
-
     },[hits])
 
     function handleSetToggle(){
@@ -57,10 +56,10 @@ const ForumTypeSticky = ({hits}) =>{
                 :
                 null
             }
-            <ForumButton turnLight={popular}>
+            <ForumButton turnLight={popular} onClick={()=>setHits(true)}>
                 <FontAwesomeIcon icon={faFire}/><span>Hot</span>
             </ForumButton>
-            <ForumButton turnLight={newPost}>
+            <ForumButton turnLight={newPost} onClick={()=>setHits(false)}>
                 <FontAwesomeIcon icon={faPaperPlane}/><span>New</span>
             </ForumButton>
         </Sticky>
@@ -78,7 +77,7 @@ const Sticky =  styled.div`
     width: 70%;
     height:35px;
     
-    z-index:1;
+    z-index:5;
     background: rgba(255,255,255,.2);
     backdrop-filter: saturate(180%) blur(4px);
     border-bottom: 1px solid #eee;

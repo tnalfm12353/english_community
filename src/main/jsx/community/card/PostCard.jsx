@@ -24,6 +24,8 @@ const PostCard = ({authenticated, postProp})=>{
                     setMyThumbs(false);
                 }
             });
+        }else{
+            alert("로그인 후 이용 가능합니다.");
         }
     }
 
@@ -45,7 +47,7 @@ const PostCard = ({authenticated, postProp})=>{
                 <PostFunctionTemplate myThumbs = {myThumbs} thumbsUp = {thumbsUp} updateThumbsUp = {handleThumbsUp}/>
             </PostFunctionWrapper>
             <CommentWrapper>
-                <PostComment postId = {post.id} />
+                <PostComment postId = {post.id} registeredComments = {post.postComments}/>
             </CommentWrapper>
         </PostCardContainer>
     );

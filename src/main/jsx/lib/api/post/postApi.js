@@ -20,15 +20,18 @@ export function createPostApi(post){
                 .catch(error =>({error}));
 }
 
-export function getPostsApi(){
-    let mappingValue = '/post/get-posts';
-    const headers = tokenHeader();
-    const checkingAuth = headers.Authorization.split("Bearer");
-    if(checkingAuth[1] === null){ //사용자가 좋아요를 눌렷는지 확인하기 위함으로 토큰이 존재하는지 확인.
-        mappingValue = '/auth/post/get-posts';
-    }
+export function getHotPostsApi(page){
+    let mappingValue = '/post/get-posts/hot/'+page;
     //매개변수로 포럼타입과 인기게시글 혹은 신규게시글 받기.
-    return axios.get(mappingValue, {headers:headers})
+    return axios.get(mappingValue, {headers:tokenHeader()})
+                .then((response) =>(response.data))
+                .catch(error =>({error}))
+}
+
+export function getNewPostsApi(id){
+    let mappingValue = '/post/get-posts/new/'+id;
+    //매개변수로 포럼타입과 인기게시글 혹은 신규게시글 받기.
+    return axios.get(mappingValue, {headers:tokenHeader()})
                 .then((response) =>(response.data))
                 .catch(error =>({error}))
 }

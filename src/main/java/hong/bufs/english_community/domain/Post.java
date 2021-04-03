@@ -1,6 +1,5 @@
 package hong.bufs.english_community.domain;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,7 +51,7 @@ public class Post extends BaseTimeEntity{
     @Column(nullable = false)
     private String content;
 
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true) // orphanremoval = 고아객체 제거
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true, fetch = FetchType.EAGER) // orphanremoval = 고아객체 제거
     @JoinColumn(name = "post_id")
     private Set<PostImagePaths> imagePaths = new HashSet<>();
 
@@ -60,11 +59,16 @@ public class Post extends BaseTimeEntity{
     @JoinColumn(name ="account", referencedColumnName = "id")
     private Account account;
 
-    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true) //hits 값 올린건 그대로 놔두는게 좋을듯.
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true) //thumbsUp 값 올린건 그대로 놔두는게 좋을듯.
     private Set<AccountPostThumbsUp> whoThumbsUps = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
     private Set<PostComment> postComments = new HashSet<>();
+
+    public void addPostComment (PostComment postComment){
+        postComments.add(postComment);
+        postComment.setPost(this);
+    }
     
     private int thumbsUp; // 추천수
 

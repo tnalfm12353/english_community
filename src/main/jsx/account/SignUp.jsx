@@ -42,6 +42,7 @@ class SignUp extends React.Component{
     handleChange(e){
         this.setState({[e.target.name]:e.target.value},this.validation(e))
     }
+
     /* -------------------- Vaildation DB function ------------------------------*/
     isExist(name,value){
         let data = JSON.stringify({isExist:value});
@@ -82,10 +83,7 @@ class SignUp extends React.Component{
 
     /* -------------------- Validation ------------------------------*/
     validation(e) {
-
         const {IDcheck, PWCheck, nickCheck, regExp } = validationForm;
-
-        const blur = document.getElementById('id-input');
 
         switch(e.target.name){
             case "username":
@@ -120,7 +118,7 @@ class SignUp extends React.Component{
     /* -------------------- Sign - Up ------------------------------*/
     handleSignUp(){
         const {isIdExist,validPW,validCPW,isNickExist} = this.state;
-        const {isSimpleSignUp} = this.props;
+        const {isSimpleSignUp, handleClose} = this.props;
         if(isIdExist&&validPW&&validCPW&&isNickExist){
             const requestMapping ="/sign-up/";
             let mappingValue,data;
@@ -132,12 +130,17 @@ class SignUp extends React.Component{
             }else{
                 //datail
             }
-            console.log("handsignup");
-            SignUpApi(mappingValue,data);
+            SignUpApi(mappingValue,data).then(result=>{
+                if(result.status === 204){
+                    alert(nickname+"님 회원가입이 완료되었습니다.");
+                    handleClose();
+                }
+            });
         }else{
             const signUpBtn = document.getElementById("sign-up-btn");
-            // signUpBtn.style.color="#e64980";
-            // signUpBtn.style.boxShadow = "0px 5px 6px 3px rgba(90,29,50,0.16)";
+            signUpBtn.style.color="#fff";
+            signUpBtn.style.background="#e6498070";
+            signUpBtn.style.boxShadow = "0px 5px 6px 3px rgba(90,29,50,0.16)";
         }
     }
 

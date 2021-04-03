@@ -36,7 +36,7 @@ const SignUpForm = ({validPW,validCPW,isIdExist,isNickExist,
                 {nickErrorMSG === null ?null:<Span>{nickErrorMSG}</Span>}
             </GroupDiv>
 
-            <SignUpBtn onClick={()=>{signUp()}}>Sign Up</SignUpBtn>
+            <SignUpBtn id={"sign-up-btn"} onClick={()=>{signUp()}}>Sign Up</SignUpBtn>
         </LoginDiv>
     );
 }

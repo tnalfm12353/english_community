@@ -6,6 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import hong.bufs.english_community.domain.Post;
 
 @Transactional(readOnly = true)
-public interface PostRepository extends JpaRepository<Post,Long>{
+public interface PostRepository extends JpaRepository<Post,Long> , PostRepositoryExtension{
     
 }

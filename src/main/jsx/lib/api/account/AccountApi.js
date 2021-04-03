@@ -11,11 +11,9 @@ export function SignUpValueIsExist(name,value){
 }
 
 export const SignUpApi=(mappingValue,data)=>{
-  axios.post(mappingValue,data,{headers})
-        .then(function(response){
-          console.log(response);
-        })
-        .catch(function(error){axiosError(error)});
+  return axios.post(mappingValue,data,{headers})
+              .then((response) =>response)
+              .catch(function(error){axiosError(error)});
 
 }
 

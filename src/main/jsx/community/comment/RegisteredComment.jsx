@@ -1,17 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import ProfileButton from '../../components/ProfileButton.jsx';
 import PostAccountTemplate from '../PostAccountTemplate.jsx';
 
-const RegisteredComment = () =>{
-    const account ={
-        nickname: "account",
-        thumbnail: undefined
-    }
+const RegisteredComment = ({account,time,comment}) =>{
+
     return(
         <Template>
-            <PostAccountTemplate account = {account} />
-            <Comment>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋasdkalsdk</Comment>
+            <PostAccountTemplate account = {account} time={time}/>
+            <Comment>{comment}</Comment>
         </Template>
     )
 }
@@ -19,12 +15,14 @@ const RegisteredComment = () =>{
 export default RegisteredComment;
 
 const Template = styled.div`
-    
     border-radius: 8px;
+    border:1px solid rgba(0,0,0,.1);
+    margin-bottom:25px;
 `
 
 const Comment = styled. div`
-    margin-left: 5px;
+    padding:10px;
     align-self:center;
-    line-height:1.5rem;
+    font-size: .9rem;
+    line-height:1.3rem;
 `

@@ -5,12 +5,14 @@ import java.util.List;
 
 import hong.bufs.english_community.account.form.SimpleResponseAccountForm;
 import hong.bufs.english_community.domain.PostImagePaths;
+import hong.bufs.english_community.postComment.form.PostCommentResponseForm;
 import lombok.Data;
 
 @Data
 public class ResponsePostForm {
 
     private SimpleResponseAccountForm account;
+    private List<PostCommentResponseForm> postComments;
 
     private long id;
     private String title;

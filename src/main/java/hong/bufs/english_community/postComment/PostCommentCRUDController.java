@@ -1,5 +1,6 @@
 package hong.bufs.english_community.postComment;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,10 @@ import hong.bufs.english_community.account.AccountService;
 import hong.bufs.english_community.account.CurrentAccount;
 import hong.bufs.english_community.domain.Account;
 import hong.bufs.english_community.domain.Post;
+import hong.bufs.english_community.domain.PostComment;
 import hong.bufs.english_community.post.PostService;
+import hong.bufs.english_community.postComment.form.PostCommentResponseForm;
+import hong.bufs.english_community.responses.CommonResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,15 +28,18 @@ public class PostCommentCRUDController {
     private final AccountService accountService;
     private final PostService postService;
     private final PostCommentService commentService;
+    private final ModelMapper modelMapper;
 
     @PostMapping(value="{postId}/create-comment")
     public ResponseEntity<?> createComment(@CurrentAccount AccountContext context, @PathVariable long postId, @RequestBody String comment) {
         Account account = accountService.getUserAccount(context);
         Post post = postService.getPost(postId);
-        commentService.createComment(account,post,comment);
-
-        // commentService.removeComment();
-        return ResponseEntity.ok().build();
+        PostComment postComment = commentService.createComment(account,post,comment);
+        PostCommentResponseForm responseForm = convertPostCommentToResponsePostForm(postComment);
+        return ResponseEntity.ok().body(new CommonResponse<PostCommentResponseForm>(responseForm));
     }
     
+    private PostCommentResponseForm convertPostCommentToResponsePostForm(PostComment postComment){
+        return modelMapper.map(postComment, PostCommentResponseForm.class);
+    }
 }

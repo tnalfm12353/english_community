@@ -16,13 +16,14 @@ public class PostCommentService {
     
     private final PostCommentRepository postCommentRepository;
 
-    public void createComment(Account account, Post post , String comment){
+    public PostComment createComment(Account account, Post post , String comment){
         PostComment postComment = new PostComment();
         postComment.setAccount(account);
-        postComment.setPost(post);
         postComment.setComment(comment);
+        post.addPostComment(postComment);
 
         postCommentRepository.save(postComment);
+        return postComment;
     }
 
     public void removeComment(){

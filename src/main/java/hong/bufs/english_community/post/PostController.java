@@ -9,19 +9,20 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import hong.bufs.english_community.domain.Post;
 import hong.bufs.english_community.post.form.ResponsePostForm;
-import hong.bufs.english_community.responses.CommentResponseList;
-import hong.bufs.english_community.responses.CommonResponse;
+import hong.bufs.english_community.responses.CommonResponseList;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -32,19 +33,36 @@ public class PostController {
     private final PostService postService;
     private final ModelMapper modelMapper;
     private final ServletContext servletContext;
+    private final PostRepository postRepository;
 
-    @GetMapping("get-posts")
-    public ResponseEntity<?> getPosts (/*@RequestBody ForumTypeForm forumTypeForm */){ 
-        List<Post> posts = postService.getPosts();
-        List<ResponsePostForm> responsePostForm = convertPostListToResponsePostForm(posts);
-        return ResponseEntity.ok().body(new CommentResponseList<ResponsePostForm>(responsePostForm));
+    //requestBody로 마지막 포스트 아이디를 받아와서 그 다음 부터 뿌려줄것임.
+    @GetMapping("get-posts/hot/{page}") 
+    public ResponseEntity<?> getHotPosts (Pageable pageable, @PathVariable int page){
+        pageable = PageRequest.of(page, 5,Direction.DESC,"thumbsUp");
+        Page<Post> posts = postRepository.getHotPostsBythumbsUp(pageable);
+        List<ResponsePostForm> responsePostForm = convertPostPageToResponsePostForm(posts);
+        return ResponseEntity.ok().body(new CommonResponseList<ResponsePostForm>(responsePostForm));
     }
+
+    @GetMapping("get-posts/new/{postId}") 
+    public ResponseEntity<?> getNewPosts (@PathVariable long postId){
+        List<Post> posts = postService.getNewPosts(postId);
+        List<ResponsePostForm> responsePostForm = convertPostListToResponsePostForm(posts);
+        System.out.println(responsePostForm);
+        return ResponseEntity.ok().body(new CommonResponseList<ResponsePostForm>(responsePostForm));
+        
+    }
+
 
     @GetMapping(value = "get-image/{imageName}")
     public @ResponseBody byte[] getPostImage (@PathVariable String imageName) throws Exception{
         String folderName = imageName.substring(2,10);
         InputStream inputStream = servletContext.getResourceAsStream("/uploadPost/"+folderName+"/"+imageName);
         return IOUtils.toByteArray(inputStream);
+    }
+
+    private List<ResponsePostForm> convertPostPageToResponsePostForm(Page<Post> posts){
+        return posts.stream().map( entity -> modelMapper.map(entity, ResponsePostForm.class)).collect(Collectors.toList());
     }
 
     private List<ResponsePostForm> convertPostListToResponsePostForm(List<Post> posts){

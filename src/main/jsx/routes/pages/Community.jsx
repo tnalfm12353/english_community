@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {device} from '../../lib/style/Device';
 import PostIcon from '../../../webapp/img/pencil_icon.png';
 import CreatePost from '../../community/create/CreatePost.jsx';
-import PostPagination from '../../community/PostPagination.jsx';
+import PostCardPagination from '../../community/PostCardPagination.jsx';
 import CommunityBasicTemplate from '../../community/CommunityBasicTemplate.jsx';
 import ForumTypeSticky from '../../community/ForumTypeSticky.jsx';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ const Community = () =>{
     const notice = "학생회 혹은 학교 공지";
 
     const[selectedForum, setSelectedForum] = useState('general'); //현재 고른 포럼.
-    const[postViewType, setPostViewType] = useState('card'); // 게시글을 카드형태, 라인형태(쿠키사용)
+    const[postViewType, setPostViewType] = useState('card'); // 게시글을 카드형태, 라인형태(쿠키사용) -->useReducer로 반환 혹은 스위치
     const[hits, setHits] = useState(true); //true ->인기 게시글 false -> 새 게시물.
 
     
@@ -66,10 +66,13 @@ const Community = () =>{
                 <CommunityBasicTemplate
                     content = {notice}
                 />
-                <ForumTypeSticky hits = {hits}/>
-                <PostPagination 
-
-
+                <ForumTypeSticky 
+                    hits = {hits} 
+                    setHits = {setHits}
+                />
+                <PostCardPagination 
+                    hits={hits}
+                    
                 />
                 {authenticated &&
                 <CreatePostIcon ref={canvasIconRef} width="64" height="64"  onClick={()=>{callCreatePost()}}></CreatePostIcon>}
