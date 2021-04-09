@@ -36,10 +36,8 @@ const AccountProfile = ({id}) =>{
                 setUId(responsedata.data.id);
                 setThumbnail(responsedata.data.thumbnail);
                 setNickname(responsedata.data.nickname);
-                // setBio(responsedata.data.bio);
-                setBio("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eu quam tortor. Nulla venenatis libero eget lectus varius rutrum. Ut euismod tristique facilisis. Curabitur lobortis mattis egestas. Fusce gravida, magna vel sollicitudin pellentesque, nisi mi ullamcorper eros, a mattis lectus dui quis quam. In ut sodales urna, ultrices maximus sem. Nullam tempor dolor vitae consequat volutpat. Curabitur eu orci in eros facilisis facilisis ac in quam. Fusce sodales mattis nunc quis vulputate.");
-                // setMajor(responsedata.data.major);
-                setMajor("영어학부");
+                setBio(responsedata.data.bio);
+                setMajor(responsedata.data.major);
                 setPosition(responsedata.data.position);
                 setOwner(false);
             });

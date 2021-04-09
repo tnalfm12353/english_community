@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PositionRadioBox from './PositionRadioBoxGroup.jsx';
 import SettingInputForm from '../components/SettingsInputForm.jsx';
+import TextareaAutoSize from '../components/TextareaAutoSize.jsx';
 import {updateUserInfo} from '../lib/api/account/AccountApi';
 import { useSelector } from 'react-redux';
 const UserSettings = () =>{
@@ -131,7 +132,15 @@ const UserSettings = () =>{
             <SettingInputForm name={"studentNum"} labelValue={"StudentNumber"} value={studentNum} type={"number"} onChange={InputOnChange}/>
             <PositionRadioBox positions={positions} name={"position"} onChange={PositionCheckOnChange} myPosition={position}/>
             {position == "Student"? <PositionRadioBox positions={grades} name={"grade"} onChange={GradeCheckOnChange} myPosition={grade}/>: null}
-            <textarea name={"bio"} value={"미완성"} onChange={InputOnChange} readOnly={true}></textarea>
+            <AutosizeTemp>
+                <TextareaAutoSize 
+                        placeholder={"나를 표현해보아요!"} 
+                        name={"bio"}
+                        textValue={bio}
+                        handleChange={InputOnChange}
+                        minRows={2}
+                        maxRows={10}/>
+            </AutosizeTemp>
             <UpdateButton onClick={handleUpdateUserInfo}>개인 정보 변경</UpdateButton>
         </UserSettingsContainer>
     );
@@ -148,7 +157,7 @@ const UserSettingsContainer = styled.div`
 `
 
 const UpdateButton = styled.button`
-
+    margin-top:20px;
     margin-left:10px;
     font-weight:bold;
     width:130px;
@@ -159,4 +168,7 @@ const UpdateButton = styled.button`
     background:#ffca00cc;
     padding: .4em;
     
+`
+const AutosizeTemp = styled.div`
+    border:1px solid #ffca00cc;
 `

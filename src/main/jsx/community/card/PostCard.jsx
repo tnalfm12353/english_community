@@ -5,10 +5,14 @@ import CardContent from './CardContent.jsx';
 import PostFunctionTemplate from './PostFunctionTemplate.jsx';
 import CardImages from '../PostImageSlider.jsx';
 import PostComment from '../comment/PostComment.jsx';
+import PostAccountTemplate from '../PostAccountTemplate.jsx';
+import PostUpdateButton from '../../components/PostUpdateButton.jsx';
+import PostUpdateToggle from '../../components/PostUpdateToggle.jsx';
+import ReportToggle from '../../components/ReportToggle.jsx';
 
 import {updateThumbsUpApi} from '../../lib/api/post/postApi';
 
-const PostCard = ({authenticated, postProp})=>{
+const PostCard = ({authenticated, postProp, deletePost, updatePost})=>{
     const [post] = useState(postProp);
     const [myThumbs, setMyThumbs] = useState(postProp.myThumbs); //이전에 추천을 눌렸는지 확인하는변수
     const [thumbsUp, setThumbsUp] = useState(postProp.thumbsUp); //
@@ -32,9 +36,21 @@ const PostCard = ({authenticated, postProp})=>{
     return(
         <PostCardContainer>
             <TitleWrapper>
+            <PostAccountTemplate 
+                account = {post.account}
+                time = {post.createdDateTime}
+                updateButton ={<PostUpdateButton 
+                                account = {post.account}
+                                    ownerToggleContent ={<PostUpdateToggle 
+                                                            // updatePost = {updatePost}
+                                                            deletePost = {deletePost}
+                                                            postId = {post.id}
+                                                        />}
+                                    guestToggleContent ={<ReportToggle/>}
+                                />
+                }
+            />
                 <CardTitle 
-                    time = {post.createdDateTime}
-                    account = {post.account}
                     title = {post.title}/>
             </TitleWrapper>
             <ImagesWrapper>

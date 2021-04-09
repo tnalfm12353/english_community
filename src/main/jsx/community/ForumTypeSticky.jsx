@@ -1,26 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import {device} from '../lib/style/Device';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown,faFire } from '@fortawesome/free-solid-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
 import ForumToggle from '../components/ForumToggle.jsx';
-const ForumTypeSticky = ({hits, setHits}) =>{
+const ForumTypeSticky = () =>{
+
+    const activeStyle = {
+        color: '#ffca08'
+    }
+    
     const toggleContainer = useRef(null);
     const [toggle,setToggle] = useState(false);
-    //색 변경을 위한 변수
-    const [popular,setPopular] = useState(false);
-    const [newPost,setNewPost] = useState(false);
     
-    useEffect(()=>{
-        if(hits){
-            setPopular(true);
-            setNewPost(false);
-        }else{
-            setPopular(false);
-            setNewPost(true);
-        }
-    },[hits])
 
     function handleSetToggle(){
         if(!toggle){
@@ -56,10 +50,11 @@ const ForumTypeSticky = ({hits, setHits}) =>{
                 :
                 null
             }
-            <ForumButton turnLight={popular} onClick={()=>setHits(true)}>
+            {/* to = {/Community/forumType/post/hot or new} */}
+            <ForumButton activeStyle={activeStyle} to={`/Community/general/post/hot`}>
                 <FontAwesomeIcon icon={faFire}/><span>Hot</span>
             </ForumButton>
-            <ForumButton turnLight={newPost} onClick={()=>setHits(false)}>
+            <ForumButton activeStyle={activeStyle} to={`/Community/general/post/new`}>
                 <FontAwesomeIcon icon={faPaperPlane}/><span>New</span>
             </ForumButton>
         </Sticky>
@@ -114,7 +109,7 @@ const ForumTypeRadio = styled.div`
     }
 
 `
-const ForumButton = styled.div`
+const ForumButton = styled(NavLink)`
     display:flex;
     margin-left:20px;
     width:80px;
@@ -124,7 +119,7 @@ const ForumButton = styled.div`
     font-size: 1.2rem;
     font-weight: 500;
     font-family:Kalam;
-    color: ${({turnLight})=>turnLight? `#ffca08` :`rgba(0,0,0,.5)`};
+    color:rgba(0,0,0,.5);
     
     span{
         margin-left:5px;

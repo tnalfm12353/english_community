@@ -5,7 +5,7 @@ import TextareaAutoSize from '../../components/TextareaAutoSize.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 
-import { createCommentApi } from '../../lib/api/post/CommentApi';
+import { createCommentApi, deletePostCommentApi } from '../../lib/api/post/CommentApi';
 const PostComment = ({postId , registeredComments}) =>{
     const [isExist, setIsExist] = useState(false);
     const [comment, setComment] = useState('');
@@ -62,11 +62,20 @@ const PostComment = ({postId , registeredComments}) =>{
         if(commentCheck){
             createCommentApi(postId,comment).then((result)=>{
                 if(result.response.status === 200){
-                    setViewComments([...viewComments,result.response.data.data]);
+                    setViewComments(viewComments =>[...viewComments,result.response.data.data]);
                     setComment("");
                 }
             })
         }
+    }
+    
+    function handleDeleteComment(commentId){
+        console.log(commentId);
+        deletePostCommentApi(commentId).then(result =>{
+            if(result.response.status === 200){
+                setViewComments(viewComments.filter(viewComment => viewComment.id !== commentId));
+            }
+        })
     }
 
     return(
@@ -88,6 +97,8 @@ const PostComment = ({postId , registeredComments}) =>{
                         account = {registed.account}
                         time = {registed.createdDateTime}
                         comment ={registed.comment}
+                        commentId = {registed.id}
+                        deleteComment = {handleDeleteComment}
                     />
                 ))
                 :null

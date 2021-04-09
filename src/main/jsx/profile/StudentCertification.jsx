@@ -5,7 +5,7 @@ const StudentCertification = () =>{
 
     return(
         <StudentCertificationContainer>
-            ㅎㅇㅎㅇ
+            추후 조교 혹은 학생회 측에서 영어학부 학생 인증
         </StudentCertificationContainer>
     );
 }

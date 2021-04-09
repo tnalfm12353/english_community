@@ -1,11 +1,13 @@
 package hong.bufs.english_community.post;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import hong.bufs.english_community.account.AccountRepository;
 import hong.bufs.english_community.domain.Account;
@@ -15,6 +17,7 @@ import hong.bufs.english_community.domain.PostImagePaths;
 import hong.bufs.english_community.post.form.CreatePostForm;
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -70,6 +73,24 @@ public class PostService {
 
     public boolean checkingMyThumbsUp(Account account, Post post) {
         return thumbsUpRepository.existsByAccountAndPost(account,post);
+    }
+
+
+    public void deletePost(Post post) {
+        postRepository.delete(post);
+    }
+
+
+    public Post getPostToUpdate(Account account,long postId) throws AccessDeniedException {
+        Post post = postRepository.findById(postId);
+        checkPostByAccount(account, post);
+        return post;
+    }
+
+    private void checkPostByAccount(Account account,Post post) throws AccessDeniedException{
+        if(!post.getAccount().equals(account)){
+            throw new AccessDeniedException("게시물의 글쓴이가 아닙니다.");
+        }
     }
 
 }

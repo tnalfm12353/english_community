@@ -3,13 +3,15 @@ import styled from 'styled-components';
 
 import {device} from '../../lib/style/Device';
 import PostIcon from '../../../webapp/img/pencil_icon.png';
-import CreatePost from '../../community/create/CreatePost.jsx';
-import PostCardPagination from '../../community/PostCardPagination.jsx';
+import CreatePost from '../../community/createAndUpdate/CreatePost.jsx';
+import HotPost from '../../community/PostCardHotPost.jsx';
+import NewPost from '../../community/PostCardNewPost.jsx';
 import CommunityBasicTemplate from '../../community/CommunityBasicTemplate.jsx';
 import ForumTypeSticky from '../../community/ForumTypeSticky.jsx';
 import { useSelector } from 'react-redux';
+import { Route } from 'react-router';
 
-const Community = () =>{
+const Community = (props) =>{
     const canvasIconRef = useRef();
     const authenticated = useSelector(state=> state.Account.get('authenticated'));
 
@@ -17,7 +19,6 @@ const Community = () =>{
 
     const[selectedForum, setSelectedForum] = useState('general'); //현재 고른 포럼.
     const[postViewType, setPostViewType] = useState('card'); // 게시글을 카드형태, 라인형태(쿠키사용) -->useReducer로 반환 혹은 스위치
-    const[hits, setHits] = useState(true); //true ->인기 게시글 false -> 새 게시물.
 
     
     const [createPost, setCreatePost] = useState(false);
@@ -66,14 +67,9 @@ const Community = () =>{
                 <CommunityBasicTemplate
                     content = {notice}
                 />
-                <ForumTypeSticky 
-                    hits = {hits} 
-                    setHits = {setHits}
-                />
-                <PostCardPagination 
-                    hits={hits}
-                    
-                />
+                <ForumTypeSticky/>
+                <Route path={props.match.path+"/post/hot"} component={HotPost}/>
+                <Route path={props.match.path+"/post/new"} component={NewPost}/>
                 {authenticated &&
                 <CreatePostIcon ref={canvasIconRef} width="64" height="64"  onClick={()=>{callCreatePost()}}></CreatePostIcon>}
             </CommunityContent>

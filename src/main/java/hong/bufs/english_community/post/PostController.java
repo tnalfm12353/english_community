@@ -35,11 +35,10 @@ public class PostController {
     private final ServletContext servletContext;
     private final PostRepository postRepository;
 
-    //requestBody로 마지막 포스트 아이디를 받아와서 그 다음 부터 뿌려줄것임.
-    @GetMapping("get-posts/hot/{page}") 
-    public ResponseEntity<?> getHotPosts (Pageable pageable, @PathVariable int page){
+    @GetMapping("get-posts/hot/{page}/{minusDays}") 
+    public ResponseEntity<?> getHotPosts (Pageable pageable, @PathVariable int page, @PathVariable int minusDays){
         pageable = PageRequest.of(page, 5,Direction.DESC,"thumbsUp");
-        Page<Post> posts = postRepository.getHotPostsBythumbsUp(pageable);
+        Page<Post> posts = postRepository.getHotPostsBythumbsUp(pageable, minusDays);
         List<ResponsePostForm> responsePostForm = convertPostPageToResponsePostForm(posts);
         return ResponseEntity.ok().body(new CommonResponseList<ResponsePostForm>(responsePostForm));
     }
@@ -48,11 +47,9 @@ public class PostController {
     public ResponseEntity<?> getNewPosts (@PathVariable long postId){
         List<Post> posts = postService.getNewPosts(postId);
         List<ResponsePostForm> responsePostForm = convertPostListToResponsePostForm(posts);
-        System.out.println(responsePostForm);
         return ResponseEntity.ok().body(new CommonResponseList<ResponsePostForm>(responsePostForm));
         
     }
-
 
     @GetMapping(value = "get-image/{imageName}")
     public @ResponseBody byte[] getPostImage (@PathVariable String imageName) throws Exception{

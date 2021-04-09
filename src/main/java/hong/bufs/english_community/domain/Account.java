@@ -64,17 +64,6 @@ public class Account extends BaseTimeEntity{
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Post> posts = new HashSet<>();
 
-    // 양방향으로 할려 했지만.. 
-    // Could not read entity state from ResultSet : EntityKey[hong.bufs.english_community.domain.Post#2]] with root cause
-    // java.lang.NumberFormatException: 1222021-03-30 22:12:18.0000002021-03-30 22:12:18.0000001 ?뀋?뀕?뀋  0 ?뀕?뀋?뀋
-    // 이 에러를 도저히 못 고치겠어서 포기함..
-    // public void addPost(Post post){
-    //     this.posts.add(post);
-    //     if(post.getAccount() != this){
-    //         post.setAccount(this);
-    //     }
-    // }
-
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<PostComment> postComments = new HashSet<>();
 

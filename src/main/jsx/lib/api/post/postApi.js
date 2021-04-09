@@ -20,8 +20,8 @@ export function createPostApi(post){
                 .catch(error =>({error}));
 }
 
-export function getHotPostsApi(page){
-    let mappingValue = '/post/get-posts/hot/'+page;
+export function getHotPostsApi(page, minusDays){
+    let mappingValue = '/post/get-posts/hot/'+page +'/'+minusDays;
     //매개변수로 포럼타입과 인기게시글 혹은 신규게시글 받기.
     return axios.get(mappingValue, {headers:tokenHeader()})
                 .then((response) =>(response.data))
@@ -44,5 +44,11 @@ export function updateThumbsUpApi(data){
     const mappingValue = '/auth/post/'+data+'/thumbs-up';
     return axios.post(mappingValue , null , {headers:tokenHeader()})
                 .then(response =>({response}))
-                .catch(error =>({error}))
+                .catch(error =>({error}));
+}
+
+export function deletePostApi(postId){
+    return axios.get('/auth/post/'+postId+'/delete',{headers:tokenHeader()})
+                .then(response=>({response}))
+                .catch(error => ({error}));
 }

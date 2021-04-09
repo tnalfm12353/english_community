@@ -36,6 +36,10 @@ import lombok.Setter;
     name = "Post.withImagePath",
     attributeNodes = @NamedAttributeNode("imagePaths")
 )
+@NamedEntityGraph(
+    name = "Post.OnlyAccount",
+    attributeNodes = @NamedAttributeNode("account")
+)
 @Entity
 @Setter @Getter @EqualsAndHashCode(of = "id")
 @Builder @AllArgsConstructor @NoArgsConstructor
@@ -74,7 +78,7 @@ public class Post extends BaseTimeEntity{
 
     private boolean hits; // 인기 게시물인가 아닌가 
 
-    private boolean deleted; // 삭제.
+    private boolean deleted; // 삭제...
 
 
     public void addImagePath(PostImagePaths imagePath){

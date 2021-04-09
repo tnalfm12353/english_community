@@ -12,7 +12,7 @@ const MainRouter = () =>{
                 <Switch>
                     <Route exact path = "/" component={Home}/>
                     <Route path= "/about" component={About}/>
-                    <Route path="/community" component={Community}/>
+                    <Route path="/community/:forumType" component={Community}/>
                     <Route path="/studyGroup" component={StudyGroup}/>
                     <Route path="/schedule" component={Schedule}/>
                     <Route path="/login" component={Login}/>

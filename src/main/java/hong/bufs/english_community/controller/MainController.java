@@ -10,4 +10,10 @@ public class MainController {
     public String Mainpage() {
         return "page";
     }
+
+    @GetMapping("/Community/*/post/*")
+    public String Community(){
+        return "page";
+    }
+
 }

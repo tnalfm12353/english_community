@@ -8,4 +8,5 @@ import hong.bufs.english_community.domain.Post;
 @Transactional(readOnly = true)
 public interface PostRepository extends JpaRepository<Post,Long> , PostRepositoryExtension{
     
+    Post findById(long postId);    
 }

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {device} from '../../lib/style/Device';
-import PostAccountTemplate from '../PostAccountTemplate.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAddressBook } from '@fortawesome/free-solid-svg-icons';
-const CardTitle = ({time,account, title}) =>{
+import { faDove } from '@fortawesome/free-solid-svg-icons';
+const CardTitle = ({time, title}) =>{
 
     const forumType = "변수받기";
     
@@ -16,14 +15,13 @@ const CardTitle = ({time,account, title}) =>{
                 break;
             case "PROFESSOR" : return 
                 break;
-            default : return <FontAwesomeIcon icon={faAddressBook} size={'1x'} color={"rgba(255,202,8)"}/>
+            default : return <FontAwesomeIcon icon={faDove} size={'1x'} color={"rgba(255,202,8)"}/>
                 break;
         }
     }
 
     return(
         <CardTitleContainer>
-            <PostAccountTemplate account = {account} time = {time}/>
             <TitleTemplate>
                 {forumIcon()}
                 <Title>{title}</Title>

@@ -1,6 +1,7 @@
 package hong.bufs.english_community.post;
 
 import java.io.File;
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,4 +74,13 @@ public class PostCRUDController {
         return ResponseEntity.ok().build();
     }
     
+    @GetMapping("{postId}/delete")
+    public ResponseEntity<?> deletePost(@CurrentAccount AccountContext context, @PathVariable long postId) throws AccessDeniedException{
+        Account account = accountService.getUserAccount(context);
+        Post post = postService.getPostToUpdate(account,postId);
+
+        postService.deletePost(post);
+
+        return ResponseEntity.ok().build();
+    }
 }

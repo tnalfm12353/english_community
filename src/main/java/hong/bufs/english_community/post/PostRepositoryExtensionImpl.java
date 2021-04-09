@@ -30,32 +30,21 @@ public class PostRepositoryExtensionImpl extends QuerydslRepositorySupport imple
      */
 
     @Override
-    public Page<Post> getHotPostsBythumbsUp(Pageable pageable){
-        int minusDayfromNow = 1;
-        QueryResults<Post> fetchResults = test(pageable, minusDayfromNow);
-        return new PageImpl<>(fetchResults.getResults(),pageable,fetchResults.getTotal());
-    }
-
-    private QueryResults<Post> test(Pageable pageable, int minusDayNumber){
+    public Page<Post> getHotPostsBythumbsUp(Pageable pageable, int minusDayNumber){
+        LocalDateTime previousTime = LocalDateTime.now().minusDays(minusDayNumber-1);
         LocalDateTime currentTime = LocalDateTime.now().minusDays(minusDayNumber);
-        
+
         QPost post = QPost.post;
         JPQLQuery<Post> query = from(post)
                                 .leftJoin(post.postComments, QPostComment.postComment).fetchJoin()
                                 .leftJoin(post.account, QAccount.account).fetchJoin()
                                 .leftJoin(post.imagePaths, QPostImagePaths.postImagePaths).fetchJoin()
-                                .where(post.createdDateTime.goe(currentTime))
+                                .where(post.createdDateTime.loe(previousTime),post.createdDateTime.goe(currentTime), post.thumbsUp.gt(0))
                                 .distinct();
         JPQLQuery<Post> pageableQuery = getQuerydsl().applyPagination(pageable, query);
         QueryResults<Post> fetchResults = pageableQuery.fetchResults();
-        System.out.println(fetchResults.getTotal());
-        if(minusDayNumber <= 10 && fetchResults.getResults().isEmpty()){ //최대 10일까지 확인.(무한 재귀하지 않기 위해..)
-            System.out.println("is EMPTYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
-            pageable.getOffset();
-            minusDayNumber += 1;            
-            return test(pageable,minusDayNumber);
-        }
-        return fetchResults;
+    
+        return new PageImpl<>(fetchResults.getResults(),pageable,fetchResults.getTotal());
     }
 
     @Override

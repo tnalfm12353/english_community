@@ -11,7 +11,7 @@ import hong.bufs.english_community.domain.Post;
 @Transactional(readOnly = true)
 public interface PostRepositoryExtension {
     
-    Page<Post> getHotPostsBythumbsUp(Pageable pageable);
+    Page<Post> getHotPostsBythumbsUp(Pageable pageable, int minusDayNumber);
 
     List<Post> findByIdLowerThanParamDESC(long id);
 

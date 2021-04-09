@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import {device} from '../lib/style/Device';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDove } from '@fortawesome/free-solid-svg-icons';
 
 const ForumToggle = () =>{
 
     return(
         <ToggleContainer>
-            <ToggleComponent>General</ToggleComponent>
+            <ToggleComponent><FontAwesomeIcon icon={faDove}/><span>General</span></ToggleComponent>
         </ToggleContainer>
     )
 }
@@ -39,5 +41,9 @@ const ToggleComponent = styled.div`
     @media ${device.laptop}{
         width: 80px;
         font-size:.9rem;
+    }
+
+    span{
+        margin-left:3px;
     }
 `

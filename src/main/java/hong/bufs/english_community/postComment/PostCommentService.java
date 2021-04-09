@@ -3,6 +3,7 @@ package hong.bufs.english_community.postComment;
 import java.util.NoSuchElementException;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import hong.bufs.english_community.domain.Account;
@@ -25,13 +26,22 @@ public class PostCommentService {
         postCommentRepository.save(postComment);
         return postComment;
     }
-
-    public void removeComment(){
-        //좀더 깔끔하게 만들기.
-        long temp = 2;
-        PostComment post1 = postCommentRepository.findById(temp).orElseThrow(()-> new NoSuchElementException());
-        post1.setAccount(null);
-        post1.getPost().getPostComments().remove(post1);
-        postCommentRepository.delete(post1);
+    
+    public PostComment getPostCommentById (long commentId){
+        return postCommentRepository.findById(commentId).orElseThrow(()-> new NoSuchElementException());
     }
+
+    public void deletePostComment(Account account, PostComment comment) {
+        checkCommentByAccount(account, comment);
+        comment.setAccount(null);
+        comment.getPost().getPostComments().remove(comment);
+        postCommentRepository.delete(comment);
+    }
+
+    private void checkCommentByAccount(Account account, PostComment comment){
+        if(!comment.getAccount().equals(account)){
+            throw new AccessDeniedException("댓글의 글쓴이가 아닙니다.");
+        }
+    }
+    
 }

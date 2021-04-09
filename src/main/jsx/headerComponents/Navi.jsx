@@ -7,7 +7,7 @@ const Navi = ()=>{
     return (
         <Nav>
             <NavItem to="/About" activeStyle={{color: "#ffca08"}}>About</NavItem>
-            <NavItem to="/Community" activeStyle={{color: "#ffca08"}}>Community</NavItem>
+            <NavItem to="/Community/general/post/hot" activeStyle={{color: "#ffca08"}}>Community</NavItem>
             <NavItem to="/signUp" activeStyle={{color: "#ffca08"}}>StudyGroup</NavItem>
             <NavItem to="/Schedule" activeStyle={{color: "#ffca08"}}>Schedule</NavItem>
         </Nav>

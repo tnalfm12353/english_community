@@ -16,6 +16,7 @@ import hong.bufs.english_community.postComment.form.PostCommentResponseForm;
 import hong.bufs.english_community.responses.CommonResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,14 @@ public class PostCommentCRUDController {
         PostComment postComment = commentService.createComment(account,post,comment);
         PostCommentResponseForm responseForm = convertPostCommentToResponsePostForm(postComment);
         return ResponseEntity.ok().body(new CommonResponse<PostCommentResponseForm>(responseForm));
+    }
+
+    @GetMapping("{commentId}/delete")
+    public ResponseEntity<?> deleteComment(@CurrentAccount AccountContext context, @PathVariable long commentId){
+        Account account = accountService.getUserAccount(context);
+        PostComment comment = commentService.getPostCommentById(commentId);
+        commentService.deletePostComment(account, comment);
+        return ResponseEntity.ok().build();
     }
     
     private PostCommentResponseForm convertPostCommentToResponsePostForm(PostComment postComment){

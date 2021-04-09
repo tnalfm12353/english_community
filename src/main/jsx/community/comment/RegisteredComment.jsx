@@ -1,12 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import PostAccountTemplate from '../PostAccountTemplate.jsx';
-
-const RegisteredComment = ({account,time,comment}) =>{
+import PostUpdateButton from '../../components/PostUpdateButton.jsx';
+import CommentUpdateToggle from '../../components/CommentUpdateToggle.jsx';
+import ReportToggle from '../../components/ReportToggle.jsx';
+const RegisteredComment = ({account,time,comment,commentId,deleteComment}) =>{
 
     return(
         <Template>
-            <PostAccountTemplate account = {account} time={time}/>
+            <PostAccountTemplate 
+                account = {account} time={time}
+                updateButton ={<PostUpdateButton 
+                    account = {account}
+                        ownerToggleContent ={<CommentUpdateToggle
+                                                deleteComment = {deleteComment}
+                                                commentId = {commentId}
+                                            />}
+                        guestToggleContent ={<ReportToggle/>}
+                    />
+    }
+            />
             <Comment>{comment}</Comment>
         </Template>
     )
